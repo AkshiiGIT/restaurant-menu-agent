@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MenuAI</title>
+  <title>MenuAI | Version Gemini</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     :root { --cream:#F5F0E8;--ink:#1A1410;--gold:#C9A84C;--gold-light:#E8D4A0;--rust:#8B3A2A;--sage:#4A5E4A;--warm-gray:#8A847A;--card-bg:#FDFAF4; }
@@ -20,7 +20,6 @@
     .tab{flex:1;padding:0.85rem 1rem;background:var(--cream);border:none;font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--warm-gray);cursor:pointer;transition:all 0.2s;border-right:1px solid var(--gold-light);}
     .tab:last-child{border-right:none;}
     .tab.active{background:var(--ink);color:var(--cream);}
-    .tab:not(.active):hover{background:rgba(201,168,76,0.07);color:var(--ink);}
     main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:3rem 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
     @media(max-width:768px){main{grid-template-columns:1fr;gap:2rem;}}
     .panel{background:var(--card-bg);border:1px solid var(--gold-light);border-radius:2px;padding:2.5rem;position:relative;}
@@ -29,204 +28,362 @@
     .panel-subtitle{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--warm-gray);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:2rem;}
     .tab-content{display:none;} .tab-content.active{display:block;}
     .photo-drop-zone{border:2px dashed var(--gold-light);border-radius:2px;padding:2rem 1.5rem;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;}
-    .photo-drop-zone:hover,.photo-drop-zone.dragover{border-color:var(--gold);background:rgba(201,168,76,0.04);}
+    .photo-drop-zone:hover{border-color:var(--gold);background:rgba(201,168,76,0.04);}
     .photo-drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
     .drop-icon{font-size:2.5rem;margin-bottom:0.8rem;display:block;opacity:0.7;}
     .drop-text{font-size:1rem;color:var(--warm-gray);font-style:italic;margin-bottom:0.4rem;}
     .drop-hint{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;}
     #photo-previews{display:none;flex-wrap:wrap;gap:0.6rem;margin-top:1.2rem;}
-    .photo-thumb{position:relative;width:80px;height:80px;border:1px solid var(--gold-light);border-radius:2px;overflow:hidden;flex-shrink:0;}
+    .photo-thumb{position:relative;width:80px;height:80px;border:1px solid var(--gold-light);border-radius:2px;overflow:hidden;}
     .photo-thumb img{width:100%;height:100%;object-fit:cover;}
-    .remove-btn{position:absolute;top:2px;right:2px;width:18px;height:18px;background:rgba(26,20,16,0.8);color:white;border:none;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-    .photo-count-badge{display:none;align-items:center;gap:0.4rem;margin-top:0.8rem;font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--sage);letter-spacing:0.15em;text-transform:uppercase;}
+    .remove-btn{position:absolute;top:2px;right:2px;width:18px;height:18px;background:rgba(26,20,16,0.8);color:white;border:none;border-radius:50%;font-size:11px;cursor:pointer;}
     .info-group{margin-top:1.5rem;}
     .info-label{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:0.4rem;display:block;}
-    .info-input{width:100%;padding:0.7rem 1rem;border:1px solid var(--gold-light);border-radius:2px;background:white;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--ink);outline:none;transition:border-color 0.2s;margin-bottom:0.8rem;}
-    .info-input:focus{border-color:var(--gold);}
-    .info-input::placeholder{color:var(--warm-gray);font-style:italic;}
-    .btn-generate-full{display:block;width:100%;margin-top:1.5rem;padding:1rem;background:var(--ink);color:var(--cream);border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:all 0.25s;}
+    .info-input{width:100%;padding:0.7rem 1rem;border:1px solid var(--gold-light);border-radius:2px;background:white;font-family:'Cormorant Garamond',serif;font-size:1rem;margin-bottom:0.8rem;outline:none;}
+    .btn-generate-full{display:block;width:100%;margin-top:1.5rem;padding:1rem;background:var(--ink);color:var(--cream);border:none;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:0.25s;}
     .btn-generate-full:hover{background:var(--gold);color:var(--ink);}
-    .btn-generate-full:disabled{opacity:0.5;cursor:not-allowed;background:var(--ink);color:var(--cream);}
-    .drop-zone{border:2px dashed var(--gold-light);border-radius:2px;padding:2.5rem 1.5rem;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
-    .drop-zone:hover,.drop-zone.dragover{border-color:var(--gold);background:rgba(201,168,76,0.04);}
-    .drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-    .or-divider{display:flex;align-items:center;gap:1rem;margin:1.5rem 0;color:var(--warm-gray);font-style:italic;font-size:0.9rem;}
-    .or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--gold-light);}
+    .btn-generate-full:disabled{opacity:0.5;cursor:not-allowed;}
+    .drop-zone{border:2px dashed var(--gold-light);border-radius:2px;padding:2.5rem 1.5rem;text-align:center;cursor:pointer;position:relative;}
     .url-group{display:flex;gap:0;}
-    .url-input{flex:1;padding:0.8rem 1rem;border:1px solid var(--gold-light);border-right:none;border-radius:2px 0 0 2px;background:white;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--ink);outline:none;transition:border-color 0.2s;}
-    .url-input:focus{border-color:var(--gold);}
-    .url-input::placeholder{color:var(--warm-gray);}
-    .btn-generate{padding:0.8rem 1.5rem;background:var(--ink);color:var(--cream);border:none;border-radius:0 2px 2px 0;font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
-    .btn-generate:hover{background:var(--gold);color:var(--ink);}
-    .btn-generate:disabled{opacity:0.5;cursor:not-allowed;}
-    #qr-preview-box{margin-top:1.5rem;display:none;align-items:center;gap:1rem;padding:1rem;background:rgba(201,168,76,0.06);border:1px solid var(--gold-light);border-radius:2px;}
-    #qr-preview-box img{width:60px;height:60px;object-fit:contain;border-radius:2px;}
-    .qr-info .qr-label{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.3rem;}
-    .qr-info .qr-url{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--ink);word-break:break-all;}
-    #error-box{display:none;margin-top:1rem;padding:1rem;border:1px solid var(--rust);background:rgba(139,58,42,0.05);border-radius:2px;font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--rust);letter-spacing:0.1em;line-height:1.5;}
+    .url-input{flex:1;padding:0.8rem 1rem;border:1px solid var(--gold-light);border-right:none;font-family:'DM Mono',monospace;font-size:0.75rem;outline:none;}
+    .btn-generate{padding:0.8rem 1.5rem;background:var(--ink);color:var(--cream);border:none;font-family:'DM Mono',monospace;font-size:0.65rem;text-transform:uppercase;cursor:pointer;}
+    #error-box{display:none;margin-top:1rem;padding:1rem;border:1px solid var(--rust);background:rgba(139,58,42,0.05);color:var(--rust);font-family:'DM Mono',monospace;font-size:0.65rem;}
     #progress-box{display:none;margin-top:1.5rem;}
-    .progress-step{display:flex;align-items:center;gap:0.8rem;padding:0.5rem 0;font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--warm-gray);letter-spacing:0.1em;opacity:0.4;transition:all 0.4s;}
+    .progress-step{display:flex;align-items:center;gap:0.8rem;padding:0.5rem 0;font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--warm-gray);opacity:0.4;}
     .progress-step.active{opacity:1;color:var(--ink);}
     .progress-step.done{opacity:0.7;color:var(--sage);}
-    .step-dot{width:8px;height:8px;border-radius:50%;border:1px solid currentColor;flex-shrink:0;}
-    .progress-step.active .step-dot{background:var(--gold);border-color:var(--gold);animation:pulse 1s infinite;}
-    .progress-step.done .step-dot{background:var(--sage);border-color:var(--sage);}
-    @keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.3);opacity:0.7;}}
+    .step-dot{width:8px;height:8px;border-radius:50%;border:1px solid currentColor;}
+    .progress-step.active .step-dot{background:var(--gold);animation:pulse 1s infinite;}
+    @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.3);}}
     #output-panel{display:none;animation:fadeIn 0.6s ease forwards;}
     @keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-    .menu-card{background:var(--card-bg);border:1px solid var(--gold-light);border-radius:2px;overflow:hidden;position:relative;}
-    .menu-card::before{content:'';position:absolute;top:6px;left:6px;right:-6px;bottom:-6px;border:1px solid var(--gold-light);border-radius:2px;z-index:-1;}
-    .menu-header{background:var(--ink);color:var(--cream);padding:2rem;text-align:center;position:relative;overflow:hidden;}
-    .menu-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -20%,rgba(201,168,76,0.3) 0%,transparent 60%);}
-    .menu-restaurant-name{font-size:1.8rem;font-weight:300;letter-spacing:0.2em;position:relative;}
-    .menu-tagline-text{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--gold);letter-spacing:0.3em;text-transform:uppercase;margin-top:0.5rem;position:relative;}
-    .menu-divider{display:flex;align-items:center;justify-content:center;gap:0.8rem;padding:1.2rem 2rem 0.2rem;color:var(--gold);}
-    .menu-divider-line{height:1px;flex:1;background:linear-gradient(to right,transparent,var(--gold-light));}
-    .menu-divider-line.right{background:linear-gradient(to left,transparent,var(--gold-light));}
-    .menu-section{padding:0.5rem 2rem 1.5rem;}
-    .section-title{font-size:1rem;font-weight:600;letter-spacing:0.15em;color:var(--rust);text-transform:uppercase;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--gold-light);}
+    .menu-card{background:var(--card-bg);border:1px solid var(--gold-light);border-radius:2px;position:relative;padding-bottom:2rem;}
+    .menu-header{background:var(--ink);color:var(--cream);padding:2.5rem;text-align:center;position:relative;}
+    .menu-restaurant-name{font-size:2rem;font-weight:300;letter-spacing:0.2em;}
+    .menu-tagline-text{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--gold);margin-top:0.5rem;text-transform:uppercase;}
+    .menu-section{padding:1.5rem 2.5rem 0.5rem;}
+    .section-title{font-size:1.1rem;font-weight:600;letter-spacing:0.15em;color:var(--rust);text-transform:uppercase;margin-bottom:1rem;border-bottom:1px solid var(--gold-light);}
     .menu-item{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:0.6rem 0;border-bottom:1px dotted rgba(201,168,76,0.2);}
-    .menu-item:last-child{border-bottom:none;}
-    .item-info{flex:1;}
-    .item-name{font-size:1rem;font-weight:400;color:var(--ink);}
-    .item-desc{font-size:0.8rem;font-style:italic;color:var(--warm-gray);margin-top:0.2rem;line-height:1.4;}
-    .item-price{font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--gold);white-space:nowrap;font-weight:500;}
-    .menu-footer{background:rgba(201,168,76,0.05);border-top:1px solid var(--gold-light);padding:1.2rem 2rem;text-align:center;}
-    .menu-footer p{font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--warm-gray);letter-spacing:0.2em;}
+    .item-name{font-size:1rem;font-weight:500;}
+    .item-desc{font-size:0.85rem;font-style:italic;color:var(--warm-gray);margin-top:0.2rem;}
+    .item-price{font-family:'DM Mono',monospace;font-size:0.9rem;color:var(--gold);}
+    .menu-footer{margin-top:2rem;padding:1rem;text-align:center;border-top:1px solid var(--gold-light);font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--warm-gray);}
+    .timer-badge{display:inline-flex;align-items:center;gap:0.4rem;background:var(--sage);color:white;font-family:'DM Mono',monospace;font-size:0.6rem;padding:0.4rem 0.8rem;border-radius:20px;margin-top:1rem;}
     .action-row{display:flex;gap:0.8rem;margin-top:1.2rem;}
-    .btn-action{flex:1;padding:0.75rem;border:1px solid var(--gold-light);background:transparent;color:var(--ink);font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all 0.2s;}
-    .btn-action:hover{background:var(--ink);color:var(--cream);border-color:var(--ink);}
-    .btn-action.primary{background:var(--ink);color:var(--cream);border-color:var(--ink);}
-    .btn-action.primary:hover{background:var(--gold);color:var(--ink);border-color:var(--gold);}
-    .timer-badge{display:inline-flex;align-items:center;gap:0.4rem;background:var(--sage);color:white;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;padding:0.3rem 0.7rem;border-radius:20px;margin-top:1rem;}
-    .timer-dot{width:6px;height:6px;background:#7dde7d;border-radius:50%;}
+    .btn-action{flex:1;padding:0.75rem;border:1px solid var(--gold-light);background:transparent;font-family:'DM Mono',monospace;font-size:0.6rem;text-transform:uppercase;cursor:pointer;}
+    .btn-action.primary{background:var(--ink);color:var(--cream);}
     #qr-canvas{display:none;}
-    .how-it-works{margin-top:2rem;padding:1.5rem;border-left:2px solid var(--gold-light);}
-    .how-title{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;}
-    .how-text{font-size:0.9rem;color:var(--warm-gray);line-height:1.9;font-style:italic;}
+    #qr-preview-box{margin-top:1rem;display:none;align-items:center;gap:1rem;padding:0.8rem;background:rgba(201,168,76,0.06);border:1px solid var(--gold-light);}
+    #qr-preview-box img{width:50px;height:50px;object-fit:cover;}
   </style>
 </head>
 <body>
+
 <header>
   <div class="logo-line">
     <div class="logo-ornament"></div>
     <h1>Menu<span>AI</span></h1>
     <div class="logo-ornament right"></div>
   </div>
-  <p class="tagline">Carte de restaurant generee en 10 secondes par IA</p>
+  <p class="tagline">Génération de carte par Gemini 1.5 Flash</p>
   <div class="tabs">
     <button class="tab active" onclick="switchTab('photo')">Photos du menu</button>
     <button class="tab" onclick="switchTab('qr')">QR Code / URL</button>
   </div>
 </header>
+
 <main>
   <div>
     <div class="panel">
       <div class="tab-content active" id="tab-photo">
-        <div class="panel-title">Analysez vos photos de menu</div>
-        <div class="panel-subtitle">L'IA extrait noms, prix et compositions</div>
+        <div class="panel-title">Analysez vos photos</div>
+        <div class="panel-subtitle">Vision intelligente pour extraire plats & prix</div>
         <div class="photo-drop-zone" id="photo-drop-zone">
           <input type="file" id="photo-input" accept="image/*" multiple />
-          <span class="drop-icon">PHOTO</span>
-          <p class="drop-text">Deposez vos photos de menu ici</p>
-          <p class="drop-hint">Plusieurs pages OK - PNG JPG HEIC</p>
+          <span class="drop-icon">📷</span>
+          <p class="drop-text">Déposez vos photos ici</p>
+          <p class="drop-hint">PNG, JPG, HEIC acceptés</p>
         </div>
         <div id="photo-previews"></div>
-        <div id="photo-count-badge" class="photo-count-badge"><span id="photo-count-num"></span></div>
         <div class="info-group">
-          <label class="info-label">Nom du restaurant (optionnel)</label>
-          <input type="text" class="info-input" id="resto-name" placeholder="Ex : Le Bistrot des Artistes" />
-          <label class="info-label">Adresse (optionnel)</label>
-          <input type="text" class="info-input" id="resto-address" placeholder="Ex : 12 Rue de la Paix, Paris" />
+          <label class="info-label">Nom du restaurant</label>
+          <input type="text" class="info-input" id="resto-name" placeholder="Ex: Le Petit Bistrot" />
+          <label class="info-label">Ville / Adresse</label>
+          <input type="text" class="info-input" id="resto-address" placeholder="Ex: Lyon, France" />
         </div>
-        <button class="btn-generate-full" id="btn-analyze" onclick="analyzePhotos()">Analyser et generer la carte</button>
+        <button class="btn-generate-full" id="btn-analyze" onclick="analyzePhotos()">Générer la carte</button>
       </div>
+
       <div class="tab-content" id="tab-qr">
-        <div class="panel-title">Scanner un QR code</div>
-        <div class="panel-subtitle">QR Code ou URL directe</div>
+        <div class="panel-title">Scanner un menu en ligne</div>
+        <div class="panel-subtitle">Déposez le QR Code ou collez l'URL</div>
         <div class="drop-zone" id="drop-zone">
           <input type="file" id="file-input" accept="image/*" />
-          <span class="drop-icon">QR</span>
-          <p class="drop-text">Deposez votre QR code ici</p>
-          <p class="drop-hint">PNG JPG WEBP</p>
+          <span class="drop-icon">🔗</span>
+          <p class="drop-text">Déposez le QR Code ici</p>
         </div>
-        <canvas id="qr-canvas"></canvas>
         <div id="qr-preview-box">
           <img id="qr-preview-img" src="" alt="QR"/>
-          <div class="qr-info">
-            <div class="qr-label">URL detectee</div>
-            <div class="qr-url" id="qr-url-display"></div>
-          </div>
+          <div style="font-family:'DM Mono'; font-size: 0.65rem;" id="qr-url-display"></div>
         </div>
-        <div class="or-divider">ou</div>
+        <div style="margin:1.5rem 0; text-align:center; color:var(--warm-gray); font-style: italic;">— ou —</div>
         <div class="url-group">
-          <input type="text" class="url-input" id="url-input" placeholder="https://monrestaurant.fr/menu"/>
-          <button class="btn-generate" id="btn-generate" onclick="generateFromURL()">Generer</button>
+          <input type="text" class="url-input" id="url-input" placeholder="https://votre-menu-en-ligne.fr"/>
+          <button class="btn-generate" id="btn-generate" onclick="generateFromURL()">Go</button>
         </div>
       </div>
+
       <div id="error-box"></div>
       <div id="progress-box">
-        <div class="progress-step" id="step-1"><div class="step-dot"></div><span id="lbl-1">Chargement</span></div>
-        <div class="progress-step" id="step-2"><div class="step-dot"></div><span id="lbl-2">Analyse visuelle par IA</span></div>
-        <div class="progress-step" id="step-3"><div class="step-dot"></div><span id="lbl-3">Extraction des plats et prix</span></div>
-        <div class="progress-step" id="step-4"><div class="step-dot"></div><span id="lbl-4">Generation de la carte</span></div>
-      </div>
-    </div>
-    <div class="how-it-works">
-      <div class="how-title">Comment ca marche</div>
-      <div class="how-text" id="how-text">
-        1. Prenez en photo votre menu (1 a plusieurs pages)<br/>
-        2. L'IA lit et extrait noms, prix et compositions<br/>
-        3. Une carte elegante est generee en quelques secondes<br/>
-        4. Telechargez, imprimez ou partagez
+        <div class="progress-step" id="step-1"><div class="step-dot"></div><span id="lbl-1">Préparation des données</span></div>
+        <div class="progress-step" id="step-2"><div class="step-dot"></div><span id="lbl-2">Analyse visuelle (Gemini Flash)</span></div>
+        <div class="progress-step" id="step-3"><div class="step-dot"></div><span id="lbl-3">Structuration de la carte</span></div>
+        <div class="progress-step" id="step-4"><div class="step-dot"></div><span id="lbl-4">Rendu du design</span></div>
       </div>
     </div>
   </div>
+
   <div id="output-panel">
     <div class="menu-card" id="menu-card"></div>
     <div class="action-row">
-      <button class="btn-action" onclick="printMenu()">Imprimer</button>
-      <button class="btn-action" onclick="copyMenu()">Copier HTML</button>
-      <button class="btn-action primary" onclick="downloadMenu()">Telecharger</button>
+      <button class="btn-action" onclick="window.print()">Imprimer</button>
+      <button class="btn-action primary" onclick="downloadMenu()">Télécharger HTML</button>
     </div>
     <div id="timer-display"></div>
   </div>
 </main>
+
+<canvas id="qr-canvas"></canvas>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
 <script>
-var uploadedPhotos=[];var currentStep=-1;
-function switchTab(tab){document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',(tab==='photo'&&i===0)||(tab==='qr'&&i===1));});document.getElementById('tab-photo').classList.toggle('active',tab==='photo');document.getElementById('tab-qr').classList.toggle('active',tab==='qr');hideError();}
-var photoInput=document.getElementById('photo-input');
-var photoDropZone=document.getElementById('photo-drop-zone');
-photoInput.addEventListener('change',function(e){handlePhotoFiles(Array.from(e.target.files));});
-photoDropZone.addEventListener('dragover',function(e){e.preventDefault();photoDropZone.classList.add('dragover');});
-photoDropZone.addEventListener('dragleave',function(){photoDropZone.classList.remove('dragover');});
-photoDropZone.addEventListener('drop',function(e){e.preventDefault();photoDropZone.classList.remove('dragover');handlePhotoFiles(Array.from(e.dataTransfer.files));});
-async function handlePhotoFiles(files){var images=files.filter(function(f){return f.type.startsWith('image/');});if(!images.length)return;for(var i=0;i<images.length;i++){var d=await fileToBase64(images[i]);uploadedPhotos.push({base64:d.split(',')[1],mediaType:images[i].type||'image/jpeg',preview:d});}renderThumbs();}
-function fileToBase64(file){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(r.result);};r.onerror=rej;r.readAsDataURL(file);});}
-function renderThumbs(){var c=document.getElementById('photo-previews');var b=document.getElementById('photo-count-badge');c.innerHTML='';c.style.display=uploadedPhotos.length?'flex':'none';b.style.display=uploadedPhotos.length?'flex':'none';document.getElementById('photo-count-num').textContent=uploadedPhotos.length+' photo'+(uploadedPhotos.length>1?'s':'')+' chargee'+(uploadedPhotos.length>1?'s':'');uploadedPhotos.forEach(function(p,i){var t=document.createElement('div');t.className='photo-thumb';t.innerHTML='<img src="'+p.preview+'" alt="p'+(i+1)+'"/><button class="remove-btn" onclick="removePhoto('+i+')">x</button>';c.appendChild(t);});}
-function removePhoto(i){uploadedPhotos.splice(i,1);renderThumbs();}
-async function analyzePhotos(){hideError();if(!uploadedPhotos.length){showError("Ajoutez au moins une photo de votre menu.");return;}var t=Date.now();setStepLabels('photo');showProgress();document.getElementById('btn-analyze').disabled=true;try{await advanceStep(1,400);var n=document.getElementById('resto-name').value.trim();var a=document.getElementById('resto-address').value.trim();await advanceStep(2,200);var data=await callClaudeVision(uploadedPhotos,n,a);await advanceStep(3,500);await advanceStep(4,400);renderMenu(data,((Date.now()-t)/1000).toFixed(1));}catch(e){showError("Erreur : "+e.message);}finally{document.getElementById('btn-analyze').disabled=false;hideProgress();}}
-async function callClaudeVision(photos,restoName,restoAddress){var fn=restoName||'Le Restaurant';var fa=restoAddress||'France';var sys='Tu es un expert OCR et restauration. Analyse les photos de menus.\nREGLES : Retranscris fidelement. N\'invente rien. Prix illisible = "NC". Composition absente = "desc" vide.\nReponds UNIQUEMENT en JSON valide sans markdown.\nFormat: {"name":"Nom","tagline":"Type cuisine Â· '+fa+'","address":"'+fa+'","phone":"","sections":[{"title":"Categorie","items":[{"name":"Nom plat","desc":"Composition","price":"Prix"}]}]}';var imgs=photos.map(function(p){return{type:"image",source:{type:"base64",media_type:p.mediaType,data:p.base64}};});var r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:2000,system:sys,messages:[{role:"user",content:imgs.concat([{type:"text",text:"Analyse ces photos de menu et extrais tous les plats."+(restoName?' Restaurant : '+restoName+'.':'')+(restoAddress?' Adresse : '+restoAddress+'.':'')}])}]})});if(!r.ok){var e=await r.json().catch(function(){return{};});throw new Error(e.error&&e.error.message||'Erreur API '+r.status);}var d=await r.json();var txt=d.content.map(function(b){return b.text||'';}).join('');try{return JSON.parse(txt.replace(/`json|`/g,'').trim());}catch(e){throw new Error("Photo trop floue ou format non reconnu. Reessayez avec une meilleure image.");}}
-var fileInput=document.getElementById('file-input');var dropZone=document.getElementById('drop-zone');var canvas=document.getElementById('qr-canvas');var ctx=canvas.getContext('2d');
-fileInput.addEventListener('change',function(e){if(e.target.files[0])handleQRFile(e.target.files[0]);});
-dropZone.addEventListener('dragover',function(e){e.preventDefault();dropZone.classList.add('dragover');});
-dropZone.addEventListener('dragleave',function(){dropZone.classList.remove('dragover');});
-dropZone.addEventListener('drop',function(e){e.preventDefault();dropZone.classList.remove('dragover');if(e.dataTransfer.files[0])handleQRFile(e.dataTransfer.files[0]);});
-function handleQRFile(file){var r=new FileReader();r.onload=function(ev){var img=new Image();img.onload=function(){canvas.width=img.width;canvas.height=img.height;ctx.drawImage(img,0,0);var id=ctx.getImageData(0,0,canvas.width,canvas.height);var code=jsQR(id.data,id.width,id.height);if(code){document.getElementById('url-input').value=code.data;document.getElementById('qr-preview-img').src=ev.target.result;document.getElementById('qr-url-display').textContent=code.data;document.getElementById('qr-preview-box').style.display='flex';}else{showError("QR code non reconnu.");}};img.src=ev.target.result;};r.readAsDataURL(file);}
-async function generateFromURL(){hideError();var url=document.getElementById('url-input').value.trim();if(!url){showError("Entrez une URL.");return;}var t=Date.now();setStepLabels('url');showProgress();document.getElementById('btn-generate').disabled=true;try{await advanceStep(1,600);await advanceStep(2,700);var sys='Tu es expert restauration. Genere un menu realiste francais. JSON valide uniquement sans markdown. Format: {"name":"...","tagline":"...","address":"...","phone":"...","sections":[{"title":"Entrees","items":[{"name":"...","desc":"...","price":"..."}]}]} 3 sections, 3-4 plats.';var r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:sys,messages:[{role:"user",content:"Genere un menu pour : "+url}]})});if(!r.ok)throw new Error('Erreur API '+r.status);var d=await r.json();var txt=d.content.map(function(b){return b.text||'';}).join('');var data=JSON.parse(txt.replace(/`json|`/g,'').trim());await advanceStep(3,500);await advanceStep(4,400);renderMenu(data,((Date.now()-t)/1000).toFixed(1));}catch(e){showError("Erreur : "+e.message);}finally{document.getElementById('btn-generate').disabled=false;hideProgress();}}
-function renderMenu(data,elapsed){var card=document.getElementById('menu-card');card.innerHTML='<div class="menu-header"><div class="menu-restaurant-name">'+data.name+'</div><div class="menu-tagline-text">'+data.tagline+'</div></div>'+data.sections.map(function(s){return'<div class="menu-section"><div class="section-title">'+s.title+'</div>'+s.items.map(function(it){return'<div class="menu-item"><div class="item-info"><div class="item-name">'+it.name+'</div>'+(it.desc?'<div class="item-desc">'+it.desc+'</div>':'')+'</div><div class="item-price">'+it.price+'</div></div>';}).join('')+'</div><div class="menu-divider"><div class="menu-divider-line"></div><span style="color:var(--gold-light);font-size:0.8rem;">*</span><div class="menu-divider-line right"></div></div>';}).join('')+'<div class="menu-footer"><p>'+data.address+(data.phone?' - '+data.phone:'')+'</p></div>';var p=document.getElementById('output-panel');p.style.display='block';p.scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('timer-display').innerHTML='<div class="timer-badge"><div class="timer-dot"></div>Genere en '+elapsed+'s</div>';}
-function printMenu(){var w=window.open('','_blank');w.document.write('<html><head><style>body{font-family:Georgia,serif;padding:2rem;}</style></head><body>'+document.getElementById('menu-card').outerHTML+'</body></html>');w.print();}
-function copyMenu(){navigator.clipboard.writeText(document.getElementById('menu-card').outerHTML).then(function(){alert('HTML copie !');});}
-function downloadMenu(){var card=document.getElementById('menu-card');var name=(card.querySelector('.menu-restaurant-name')||{textContent:'menu'}).textContent;var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>'+name+'</title></head><body>'+card.outerHTML+'</body></html>'],{type:'text/html'}));a.download=name.replace(/\s+/g,'-').toLowerCase()+'-carte.html';a.click();}
-var stepIds=['step-1','step-2','step-3','step-4'];var lblIds=['lbl-1','lbl-2','lbl-3','lbl-4'];
-function setStepLabels(m){var l=m==='photo'?['Chargement des photos','Analyse visuelle par IA','Extraction des plats et prix','Generation de la carte']:['Analyse du QR/URL','Extraction des donnees','Generation par IA','Mise en forme finale'];l.forEach(function(v,i){document.getElementById(lblIds[i]).textContent=v;});}
-function showProgress(){currentStep=-1;stepIds.forEach(function(s){document.getElementById(s).className='progress-step';});document.getElementById('progress-box').style.display='block';}
-function hideProgress(){setTimeout(function(){document.getElementById('progress-box').style.display='none';},1500);}
-async function advanceStep(n,delay){if(currentStep>=0)document.getElementById(stepIds[currentStep]).className='progress-step done';currentStep=n-1;document.getElementById(stepIds[currentStep]).className='progress-step active';await sleep(delay);}
-function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
-function showError(msg){var b=document.getElementById('error-box');b.textContent='Erreur : '+msg;b.style.display='block';}
-function hideError(){document.getElementById('error-box').style.display='none';}
+/**
+ * CONFIGURATION GEMINI
+ * Note: Pour une mise en prod Git publique, 
+ * utilisez un backend pour cacher cette clé.
+ */
+const GEMINI_API_KEY = "AIzaSyA0PCO-fu5_yARmqDdiK-ynxFdYtJ5iNfw";
+let uploadedPhotos = [];
+let currentStep = -1;
+
+// Navigation Onglets
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active',(tab==='photo'&&i===0)||(tab==='qr'&&i===1)));
+  document.getElementById('tab-photo').classList.toggle('active',tab==='photo');
+  document.getElementById('tab-qr').classList.toggle('active',tab==='qr');
+  hideError();
+}
+
+// Gestion des Photos
+const photoInput = document.getElementById('photo-input');
+photoInput.addEventListener('change', e => handlePhotoFiles(Array.from(e.target.files)));
+
+async function handlePhotoFiles(files){
+  const imgs = files.filter(f => f.type.startsWith('image/'));
+  for(let f of imgs){
+    const base64 = await fileToBase64(f);
+    uploadedPhotos.push({
+      mimeType: f.type,
+      data: base64.split(',')[1],
+      preview: base64
+    });
+  }
+  renderThumbs();
+}
+
+function fileToBase64(file){
+  return new Promise((res) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.readAsDataURL(file);
+  });
+}
+
+function renderThumbs(){
+  const div = document.getElementById('photo-previews');
+  div.style.display = uploadedPhotos.length ? 'flex' : 'none';
+  div.innerHTML = uploadedPhotos.map((p,i) => `
+    <div class="photo-thumb">
+      <img src="${p.preview}" />
+      <button class="remove-btn" onclick="removePhoto(${i})">×</button>
+    </div>
+  `).join('');
+}
+
+function removePhoto(i){ uploadedPhotos.splice(i,1); renderThumbs(); }
+
+// Communication API Gemini
+async function callGemini(parts, restoInfo) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  
+  const systemPrompt = `Tu es un expert en numérisation de menus de restaurants.
+  INSTRUCTIONS:
+  1. Extrais TOUS les plats, descriptions et prix.
+  2. Organise par sections logiques (Entrées, Plats, Desserts, Boissons...).
+  3. Formate les prix proprement (ex: 12,00€). Si absent, mets "NC".
+  4. Réponds UNIQUEMENT en JSON valide.
+  
+  STRUCTURE JSON:
+  {
+    "name": "${restoInfo.name || 'Le Restaurant'}",
+    "tagline": "Cuisine Inspirée • ${restoInfo.addr || 'Fait Maison'}",
+    "address": "${restoInfo.addr || ''}",
+    "sections": [
+      { "title": "SECTION", "items": [{"name": "Nom", "desc": "Desc", "price": "10€"}] }
+    ]
+  }`;
+
+  const body = {
+    contents: [{ parts: [{ text: systemPrompt }, ...parts] }],
+    generationConfig: { 
+      responseMimeType: "application/json",
+      temperature: 0.2
+    }
+  };
+
+  const resp = await fetch(url, { method: "POST", body: JSON.stringify(body) });
+  if(!resp.ok) throw new Error("API Gemini indisponible ou clé invalide.");
+  
+  const json = await resp.json();
+  const textResponse = json.candidates[0].content.parts[0].text;
+  return JSON.parse(textResponse);
+}
+
+// Actions de Génération
+async function analyzePhotos(){
+  if(!uploadedPhotos.length) return showError("Veuillez ajouter au moins une photo.");
+  const startTime = Date.now();
+  const name = document.getElementById('resto-name').value;
+  const addr = document.getElementById('resto-address').value;
+
+  setLoading(true);
+  showProgress();
+
+  try {
+    await advanceStep(1, 400);
+    const parts = uploadedPhotos.map(p => ({ inlineData: { mimeType: p.mimeType, data: p.data } }));
+    
+    await advanceStep(2, 200);
+    const data = await callGemini(parts, {name, addr});
+    
+    await advanceStep(3, 400);
+    await advanceStep(4, 200);
+    
+    renderMenu(data, ((Date.now() - startTime)/1000).toFixed(1));
+  } catch(e) {
+    showError("Échec de l'analyse : " + e.message);
+  } finally {
+    setLoading(false);
+    hideProgress();
+  }
+}
+
+async function generateFromURL(){
+  const urlStr = document.getElementById('url-input').value;
+  if(!urlStr) return showError("Veuillez entrer une URL valide.");
+  
+  const startTime = Date.now();
+  setLoading(true);
+  showProgress();
+
+  try {
+    await advanceStep(1, 400);
+    const parts = [{ text: "Génère un menu structuré à partir du contenu de cette page : " + urlStr }];
+    
+    await advanceStep(2, 600);
+    const data = await callGemini(parts, {name:"", addr:""});
+    
+    renderMenu(data, ((Date.now() - startTime)/1000).toFixed(1));
+  } catch(e) {
+    showError("Gemini n'a pas pu accéder à l'URL ou extraire les données.");
+  } finally {
+    setLoading(false);
+    hideProgress();
+  }
+}
+
+// Mise en page de la carte
+function renderMenu(data, elapsed){
+  const card = document.getElementById('menu-card');
+  card.innerHTML = `
+    <div class="menu-header">
+      <div class="menu-restaurant-name">${data.name}</div>
+      <div class="menu-tagline-text">${data.tagline}</div>
+    </div>
+    ${data.sections.map(s => `
+      <div class="menu-section">
+        <div class="section-title">${s.title}</div>
+        ${s.items.map(it => `
+          <div class="menu-item">
+            <div>
+              <div class="item-name">${it.name}</div>
+              <div class="item-desc">${it.desc || ''}</div>
+            </div>
+            <div class="item-price">${it.price}</div>
+          </div>
+        `).join('')}
+      </div>
+    `).join('')}
+    <div class="menu-footer">${data.address}</div>
+  `;
+  document.getElementById('output-panel').style.display = 'block';
+  document.getElementById('timer-display').innerHTML = `<div class="timer-badge">Généré en ${elapsed}s (Gemini 1.5 Flash)</div>`;
+  window.scrollTo({top: document.getElementById('output-panel').offsetTop - 50, behavior: 'smooth'});
+}
+
+// UI Helpers
+function setLoading(val){
+  document.getElementById('btn-analyze').disabled = val;
+  document.getElementById('btn-generate').disabled = val;
+}
+function showError(m){ const b=document.getElementById('error-box'); b.textContent=m; b.style.display='block'; }
+function hideError(){ document.getElementById('error-box').style.display='none'; }
+function showProgress(){ document.getElementById('progress-box').style.display='block'; currentStep=-1; }
+function hideProgress(){ setTimeout(()=>document.getElementById('progress-box').style.display='none', 800); }
+
+async function advanceStep(n, d){
+  if(currentStep >= 0) document.getElementById('step-'+(currentStep+1)).className='progress-step done';
+  currentStep = n-1;
+  document.getElementById('step-'+(currentStep+1)).className='progress-step active';
+  await new Promise(r => setTimeout(r, d));
+}
+
+function downloadMenu(){
+  const content = document.getElementById('menu-card').outerHTML;
+  const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{background:#F5F0E8;padding:20px;} .menu-card{max-width:800px;margin:auto;}</style></head><body>${content}</body></html>`;
+  const blob = new Blob([fullHtml], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'carte-menu-ai.html';
+  a.click();
+}
+
+// Détection QR Code
+const fileInput = document.getElementById('file-input');
+fileInput.addEventListener('change', e => {
+  const f = e.target.files[0];
+  const r = new FileReader();
+  r.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.getElementById('qr-canvas');
+      const ctx = c.getContext('2d');
+      c.width = img.width; c.height = img.height;
+      ctx.drawImage(img,0,0);
+      const code = jsQR(ctx.getImageData(0,0,c.width,c.height).data, c.width, c.height);
+      if(code){
+        document.getElementById('url-input').value = code.data;
+        document.getElementById('qr-preview-box').style.display = 'flex';
+        document.getElementById('qr-preview-img').src = ev.target.result;
+        document.getElementById('qr-url-display').textContent = "Lien détecté : " + code.data;
+      } else {
+        showError("QR Code illisible.");
+      }
+    };
+    img.src = ev.target.result;
+  };
+  r.readAsDataURL(f);
+});
 </script>
 </body>
 </html>
