@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MenuAI | Version Gemini</title>
+  <title>MenuAI | Version Gemini 2.5</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     :root { --cream:#F5F0E8;--ink:#1A1410;--gold:#C9A84C;--gold-light:#E8D4A0;--rust:#8B3A2A;--sage:#4A5E4A;--warm-gray:#8A847A;--card-bg:#FDFAF4; }
@@ -85,7 +85,7 @@
     <h1>Menu<span>AI</span></h1>
     <div class="logo-ornament right"></div>
   </div>
-  <p class="tagline">Génération de carte par Gemini 1.5 Flash</p>
+  <p class="tagline">Génération de carte par IA (Gemini 2.5)</p>
   <div class="tabs">
     <button class="tab active" onclick="switchTab('photo')">Photos du menu</button>
     <button class="tab" onclick="switchTab('qr')">QR Code / URL</button>
@@ -136,7 +136,7 @@
       <div id="error-box"></div>
       <div id="progress-box">
         <div class="progress-step" id="step-1"><div class="step-dot"></div><span id="lbl-1">Préparation des données</span></div>
-        <div class="progress-step" id="step-2"><div class="step-dot"></div><span id="lbl-2">Analyse visuelle (Gemini Flash)</span></div>
+        <div class="progress-step" id="step-2"><div class="step-dot"></div><span id="lbl-2">Analyse visuelle en cours...</span></div>
         <div class="progress-step" id="step-3"><div class="step-dot"></div><span id="lbl-3">Structuration de la carte</span></div>
         <div class="progress-step" id="step-4"><div class="step-dot"></div><span id="lbl-4">Rendu du design</span></div>
       </div>
@@ -159,10 +159,8 @@
 <script>
 /**
  * CONFIGURATION GEMINI
- * Note: Pour une mise en prod Git publique, 
- * utilisez un backend pour cacher cette clé.
  */
-const GEMINI_API_KEY = "AIzaSyA0PCO-fu5_yARmqDdiK-ynxFdYtJ5iNfw";
+const GEMINI_API_KEY = "AIzaSyAz5utYP9WqcyLczlupf21sfXmlLtli58c";
 let uploadedPhotos = [];
 let currentStep = -1;
 
@@ -212,10 +210,8 @@ function renderThumbs(){
 
 function removePhoto(i){ uploadedPhotos.splice(i,1); renderThumbs(); }
 
-// Communication API Gemini
+// Communication API Gemini (Mise à jour avec Gemini 2.5 et sécurité Fallback)
 async function callGemini(parts, restoInfo) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-  
   const systemPrompt = `Tu es un expert en numérisation de menus de restaurants.
   INSTRUCTIONS:
   1. Extrais TOUS les plats, descriptions et prix.
@@ -241,8 +237,28 @@ async function callGemini(parts, restoInfo) {
     }
   };
 
-  const resp = await fetch(url, { method: "POST", body: JSON.stringify(body) });
-  if(!resp.ok) throw new Error("API Gemini indisponible ou clé invalide.");
+  // On tente d'abord avec Gemini 2.5 Flash
+  const primaryUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  
+  let resp = await fetch(primaryUrl, { method: "POST", body: JSON.stringify(body) });
+  
+  // Si le modèle 2.5 n'est pas encore dispo sur ton compte Google Cloud, on intercepte et on passe sur la 2.0
+  if(!resp.ok) {
+    const errorDetails = await resp.json();
+    console.warn("Échec sur Gemini 2.5, bascule sur Gemini 2.0...", errorDetails);
+    
+    if(errorDetails.error?.message?.includes("is not found") || errorDetails.error?.code === 404) {
+        const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+        resp = await fetch(fallbackUrl, { method: "POST", body: JSON.stringify(body) });
+        
+        if(!resp.ok) {
+           const finalError = await resp.json();
+           throw new Error("L'API a bloqué la requête : " + (finalError.error?.message || "Modèle introuvable."));
+        }
+    } else {
+        throw new Error(errorDetails.error?.message || "Erreur de connexion à l'API.");
+    }
+  }
   
   const json = await resp.json();
   const textResponse = json.candidates[0].content.parts[0].text;
@@ -295,7 +311,7 @@ async function generateFromURL(){
     
     renderMenu(data, ((Date.now() - startTime)/1000).toFixed(1));
   } catch(e) {
-    showError("Gemini n'a pas pu accéder à l'URL ou extraire les données.");
+    showError("Échec de l'analyse : " + e.message);
   } finally {
     setLoading(false);
     hideProgress();
@@ -327,7 +343,7 @@ function renderMenu(data, elapsed){
     <div class="menu-footer">${data.address}</div>
   `;
   document.getElementById('output-panel').style.display = 'block';
-  document.getElementById('timer-display').innerHTML = `<div class="timer-badge">Généré en ${elapsed}s (Gemini 1.5 Flash)</div>`;
+  document.getElementById('timer-display').innerHTML = `<div class="timer-badge">Généré en ${elapsed}s (Gemini AI)</div>`;
   window.scrollTo({top: document.getElementById('output-panel').offsetTop - 50, behavior: 'smooth'});
 }
 
