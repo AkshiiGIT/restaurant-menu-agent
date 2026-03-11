@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MenuAI | Version Ultime & Sécurisée</title>
+  <title>MenuAI | Version Ultime & Éditable</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -60,6 +60,12 @@
     #output-panel{display:none;animation:fadeIn 0.6s ease forwards;}
     @keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
     
+    /* --- ZONES ÉDITABLES --- */
+    [contenteditable="true"] { outline: none; transition: background 0.2s, border 0.2s; border-radius: 2px; padding: 2px 4px; margin: -2px -4px; }
+    [contenteditable="true"]:hover { background: rgba(201,168,76,0.15); cursor: text; }
+    [contenteditable="true"]:focus { background: rgba(201,168,76,0.25); border-bottom: 1px dashed var(--gold); }
+    .edit-hint { background: var(--gold-light); color: var(--ink); text-align: center; padding: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: bold; margin-bottom: 1rem; border-radius: 2px; }
+
     /* --- SÉLECTEUR DE THÈMES --- */
     .style-switcher { margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 1rem; background: rgba(201,168,76,0.1); padding: 1rem; border-radius: 2px; border: 1px solid var(--gold-light); flex-wrap: wrap; }
     .style-switcher label { font-family: 'DM Mono', monospace; font-size: 0.75rem; text-transform: uppercase; color: var(--ink); font-weight: bold; }
@@ -76,7 +82,7 @@
     .menu-item { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.6rem 0; border-bottom: 1px dotted rgba(201,168,76,0.2); transition: all 0.3s ease; }
     .item-name { font-size: 1.1rem; font-weight: 500; color: inherit; }
     .item-desc { font-size: 0.85rem; font-style: italic; color: var(--warm-gray); margin-top: 0.2rem; }
-    .item-price { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--gold); font-weight: bold; }
+    .item-price { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--gold); font-weight: bold; white-space: nowrap; }
     .menu-footer { margin-top: 2rem; padding: 1rem; text-align: center; border-top: 1px solid var(--gold-light); font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--warm-gray); transition: all 0.3s ease; }
 
     /* THEMES SUPPLEMENTAIRES INCLUS */
@@ -211,6 +217,10 @@
   </div>
 
   <div id="output-panel">
+    <div class="edit-hint">
+      ✏️ Tapez directement sur les textes ou les prix ci-dessous pour les modifier avant la publication.
+    </div>
+
     <div class="style-switcher">
       <label for="theme-select">🎨 Style du menu :</label>
       <select id="theme-select" onchange="changeTheme()">
@@ -430,29 +440,29 @@ async function generateFromURL(){
   }
 }
 
-// --- RENDU HTML DE LA CARTE ---
+// --- RENDU HTML DE LA CARTE (Maintenant Editable par l'utilisateur) ---
 function renderMenu(data, elapsed){
   const card = document.getElementById('menu-card');
   card.innerHTML = `
     <div class="menu-header">
-      <div class="menu-restaurant-name">${data.name}</div>
-      <div class="menu-tagline-text">${data.tagline}</div>
+      <div class="menu-restaurant-name" contenteditable="true">${data.name}</div>
+      <div class="menu-tagline-text" contenteditable="true">${data.tagline}</div>
     </div>
     ${data.sections.map(s => `
       <div class="menu-section">
-        <div class="section-title">${s.title}</div>
+        <div class="section-title" contenteditable="true">${s.title}</div>
         ${s.items.map(it => `
           <div class="menu-item">
             <div>
-              <div class="item-name">${it.name}</div>
-              <div class="item-desc">${it.desc || ''}</div>
+              <div class="item-name" contenteditable="true">${it.name}</div>
+              <div class="item-desc" contenteditable="true">${it.desc || ''}</div>
             </div>
-            <div class="item-price">${it.price}</div>
+            <div class="item-price" contenteditable="true">${it.price}</div>
           </div>
         `).join('')}
       </div>
     `).join('')}
-    <div class="menu-footer">${data.address}</div>
+    <div class="menu-footer" contenteditable="true">${data.address}</div>
   `;
   
   changeTheme(); 
@@ -478,9 +488,12 @@ async function advanceStep(n, d){
   await new Promise(r => setTimeout(r, d));
 }
 
-// --- EXPORT HTML LOCAL ---
+// --- EXPORT HTML LOCAL (Retire l'attribut contenteditable pour la version finale) ---
 function downloadMenu(){
-  const content = document.getElementById('menu-card').outerHTML;
+  // On récupère le HTML mais on enlève la possibilité de l'éditer pour le site final
+  let content = document.getElementById('menu-card').outerHTML;
+  content = content.replace(/contenteditable="true"/g, '');
+
   const styles = document.querySelector('style').innerHTML; 
   
   const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8">
@@ -527,7 +540,7 @@ fileInput.addEventListener('change', e => {
   r.readAsDataURL(f);
 });
 
-// --- DÉPLOIEMENT GITHUB PAGES & GÉNÉRATION QR (FIN DE PAGE) ---
+// --- DÉPLOIEMENT GITHUB PAGES & GÉNÉRATION QR (Nettoie aussi l'édition) ---
 async function deployAndGenerateQR() {
   const token = document.getElementById('gh-token').value.trim();
   let repoName = document.getElementById('gh-repo').value.trim();
@@ -535,35 +548,33 @@ async function deployAndGenerateQR() {
 
   if(!token || !repoName) return showError("Le Token GitHub et le Nom du lien sont obligatoires.");
   
-  repoName = repoName.replace(/\s+/g, '-').toLowerCase(); // Formatage pour URL valide
+  repoName = repoName.replace(/\s+/g, '-').toLowerCase(); 
 
   btn.disabled = true;
   btn.textContent = "⚙️ Déploiement en cours...";
   hideError();
 
   try {
-    // Authentification
     let res = await fetch('https://api.github.com/user', { headers: { 'Authorization': `token ${token}` } });
     if(!res.ok) throw new Error("Le Token GitHub est invalide ou expiré.");
     const user = await res.json();
     const username = user.login;
 
-    // Création du repo
     await fetch('https://api.github.com/user/repos', {
       method: 'POST',
       headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: repoName, auto_init: true })
     });
 
-    // Préparation du fichier
-    const content = document.getElementById('menu-card').outerHTML;
+    // Récupération du HTML et suppression des attributs "contenteditable"
+    let content = document.getElementById('menu-card').outerHTML;
+    content = content.replace(/contenteditable="true"/g, '');
+
     const styles = document.querySelector('style').innerHTML; 
     const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Menu | ${username}</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/><style>${styles} body { background: #f5f0e8; padding: 15px; } .menu-card { max-width: 800px; margin: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }</style></head><body>${content}</body></html>`;
     
-    // Base64 pour encodage GitHub
     const encodedHtml = btoa(unescape(encodeURIComponent(fullHtml)));
 
-    // Envoi du fichier
     const putUrl = `https://api.github.com/repos/${username}/${repoName}/contents/index.html`;
     let fileSha = null;
     const getRes = await fetch(putUrl, { headers: { 'Authorization': `token ${token}` } });
@@ -582,14 +593,12 @@ async function deployAndGenerateQR() {
     });
     if(!res.ok) throw new Error("Impossible de créer la page web sur GitHub.");
 
-    // Activer Github Pages
     await fetch(`https://api.github.com/repos/${username}/${repoName}/pages`, {
       method: 'POST',
       headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.switcheroo-preview+json' },
       body: JSON.stringify({ source: { branch: 'main', path: '/' } })
     });
 
-    // Génération QR
     const pageUrl = `https://${username}.github.io/${repoName}/`;
     
     document.getElementById('qrcode-box').innerHTML = ''; 
