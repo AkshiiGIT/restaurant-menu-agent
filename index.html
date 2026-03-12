@@ -16,14 +16,8 @@
   
   <style>
     :root { 
-      --cream:#F5F0E8;
-      --ink:#1A1410;
-      --gold:#C9A84C;
-      --gold-light:#E8D4A0;
-      --rust:#8B3A2A;
-      --sage:#4A5E4A;
-      --warm-gray:#8A847A;
-      --card-bg:#FDFAF4; 
+      --cream:#F5F0E8; --ink:#1A1410; --gold:#C9A84C; --gold-light:#E8D4A0;
+      --rust:#8B3A2A; --sage:#4A5E4A; --warm-gray:#8A847A; --card-bg:#FDFAF4; 
     }
     
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -91,18 +85,15 @@
     #output-panel { display:none; animation:fadeIn 0.6s ease forwards; }
     @keyframes fadeIn { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);} }
     
-    /* --- ZONES ÉDITABLES --- */
     [contenteditable="true"] { outline: none; transition: background 0.2s, border 0.2s; border-radius: 2px; padding: 2px 4px; margin: -2px -4px; }
     [contenteditable="true"]:hover { background: rgba(201,168,76,0.15); cursor: text; }
     [contenteditable="true"]:focus { background: rgba(201,168,76,0.25); border-bottom: 1px dashed var(--gold); }
     .edit-hint { background: var(--gold-light); color: var(--ink); text-align: center; padding: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: bold; margin-bottom: 1rem; border-radius: 2px; }
 
-    /* --- SÉLECTEUR DE THÈMES --- */
     .style-switcher { margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 1rem; background: rgba(201,168,76,0.1); padding: 1rem; border-radius: 2px; border: 1px solid var(--gold-light); flex-wrap: wrap; }
     .style-switcher label { font-family: 'DM Mono', monospace; font-size: 0.75rem; text-transform: uppercase; color: var(--ink); font-weight: bold; }
     .style-switcher select { padding: 0.5rem 1rem; border: 1px solid var(--gold); border-radius: 2px; background: white; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; outline: none; cursor: pointer; color: var(--ink); min-width: 200px; }
 
-    /* --- GESTION TRADUCTION & TAGS --- */
     .lang-switch-ui { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem; }
     .lang-switch-ui button { padding: 6px 12px; font-family: 'DM Mono', monospace; font-size: 0.7rem; cursor: pointer; border: 1px solid var(--gold-light); background: transparent; border-radius: 2px; transition: 0.2s; }
     .lang-en { display: none; }
@@ -113,7 +104,6 @@
     .show-en .show-en-btn { background: var(--gold-light) !important; color: var(--ink); }
     .item-tags { font-size: 0.9rem; margin-left: 8px; user-select: none; }
 
-    /* --- BASE CARTE MENU --- */
     .menu-card { transition: all 0.3s ease; background: var(--card-bg); color: var(--ink); border: 1px solid var(--gold-light); border-radius: 2px; position: relative; padding-bottom: 2rem; font-family: 'Cormorant Garamond', Georgia, serif; padding-top: 2rem;}
     .menu-card::before { content:''; position:absolute; top:6px; left:6px; right:-6px; bottom:-6px; border:1px solid var(--gold-light); border-radius:2px; z-index:-1; transition: all 0.3s ease; }
     .menu-header { background: var(--ink); color: var(--cream); padding: 2.5rem; text-align: center; position: relative; transition: all 0.3s ease; }
@@ -128,133 +118,54 @@
     .item-price { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--gold); font-weight: bold; white-space: nowrap; }
     .menu-footer { margin-top: 2rem; padding: 1rem; text-align: center; border-top: 1px solid var(--gold-light); font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--warm-gray); transition: all 0.3s ease; }
 
-    /* =========================================
-       THÈME SUR-MESURE (GÉNÉRÉ PAR IA) 
-    ========================================= */
-    .menu-card.theme-custom { 
-      background-color: var(--ai-bg, #ffffff); 
-      color: var(--ai-text, #111111); 
-      border: 2px solid var(--ai-primary, #333333); 
-      font-family: var(--ai-font, 'Cormorant Garamond', serif); 
-    }
-    .menu-card.theme-custom::before { 
-      border: 1px solid var(--ai-accent, #cccccc); 
-      top: 6px; left: 6px; right: -6px; bottom: -6px; 
-    }
-    .menu-card.theme-custom .menu-header { 
-      background-color: var(--ai-primary, #333333); 
-      color: var(--ai-bg, #ffffff); 
-      border-bottom: 3px solid var(--ai-accent, #cccccc); 
-    }
-    .menu-card.theme-custom .section-title { 
-      color: var(--ai-primary, #333333); 
-      border-bottom: 2px dashed var(--ai-accent, #cccccc); 
-    }
-    .menu-card.theme-custom .item-name { 
-      color: var(--ai-text, #111111); 
-    }
-    .menu-card.theme-custom .item-desc { 
-      color: var(--ai-text, #555555); 
-      opacity: 0.8; 
-    }
-    .menu-card.theme-custom .item-price { 
-      color: var(--ai-primary, #333333); 
-      background: var(--ai-bg, transparent); 
-      padding: 0 4px; 
-    }
-    .menu-card.theme-custom .menu-item { 
-      border-bottom: 1px dotted var(--ai-accent, #cccccc); 
-    }
-    .menu-card.theme-custom .menu-footer { 
-      border-top: 1px solid var(--ai-accent, #cccccc); 
-      color: var(--ai-text, #111111); 
-      opacity: 0.7; 
-    }
+    .menu-card.theme-custom { background-color: var(--ai-bg, #ffffff); color: var(--ai-text, #111111); border: 2px solid var(--ai-primary, #333333); font-family: var(--ai-font, 'Cormorant Garamond', serif); }
+    .menu-card.theme-custom::before { border: 1px solid var(--ai-accent, #cccccc); top: 6px; left: 6px; right: -6px; bottom: -6px; }
+    .menu-card.theme-custom .menu-header { background-color: var(--ai-primary, #333333); color: var(--ai-bg, #ffffff); border-bottom: 3px solid var(--ai-accent, #cccccc); }
+    .menu-card.theme-custom .section-title { color: var(--ai-primary, #333333); border-bottom: 2px dashed var(--ai-accent, #cccccc); }
+    .menu-card.theme-custom .item-name { color: var(--ai-text, #111111); }
+    .menu-card.theme-custom .item-desc { color: var(--ai-text, #555555); opacity: 0.8; }
+    .menu-card.theme-custom .item-price { color: var(--ai-primary, #333333); background: var(--ai-bg, transparent); padding: 0 4px; }
+    .menu-card.theme-custom .menu-item { border-bottom: 1px dotted var(--ai-accent, #cccccc); }
+    .menu-card.theme-custom .menu-footer { border-top: 1px solid var(--ai-accent, #cccccc); color: var(--ai-text, #111111); opacity: 0.7; }
 
-    /* THEMES SUPPLEMENTAIRES INCLUS */
-    .menu-card.theme-minimal { 
-      background: #ffffff; 
-      color: #111111; 
-      border: 1px solid #e0e0e0; 
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-    }
+    .menu-card.theme-minimal { background: #ffffff; color: #111111; border: 1px solid #e0e0e0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
     .menu-card.theme-minimal::before { display: none; }
-    .menu-card.theme-minimal .menu-header { 
-      background: #ffffff; color: #111111; border-bottom: 2px solid #111111; padding: 3rem 2rem; 
-    }
-    .menu-card.theme-minimal .section-title { 
-      color: #111111; border-bottom: 2px solid #111111; font-family: 'Helvetica Neue', sans-serif; font-weight: 700; 
-    }
+    .menu-card.theme-minimal .menu-header { background: #ffffff; color: #111111; border-bottom: 2px solid #111111; padding: 3rem 2rem; }
+    .menu-card.theme-minimal .section-title { color: #111111; border-bottom: 2px solid #111111; font-family: 'Helvetica Neue', sans-serif; font-weight: 700; }
     .menu-card.theme-minimal .menu-item { border-bottom: 1px solid #f0f0f0; }
     
-    .menu-card.theme-dark { 
-      background: #121212; 
-      color: #e0e0e0; 
-      border: 1px solid #333333; 
-    }
+    .menu-card.theme-dark { background: #121212; color: #e0e0e0; border: 1px solid #333333; }
     .menu-card.theme-dark::before { border: 1px solid #333333; }
-    .menu-card.theme-dark .menu-header { 
-      background: #0a0a0a; color: #C9A84C; border-bottom: 1px solid #222222; 
-    }
+    .menu-card.theme-dark .menu-header { background: #0a0a0a; color: #C9A84C; border-bottom: 1px solid #222222; }
     .menu-card.theme-dark .section-title { color: #C9A84C; border-bottom: 1px solid #333333; }
     .menu-card.theme-dark .item-name { color: #ffffff; }
 
-    .menu-card.theme-fastfood { 
-      background: #ffffff; 
-      color: #212121; 
-      border: 4px solid #E53935; 
-      font-family: 'Impact', 'Arial Black', sans-serif; 
-      border-radius: 8px; 
-    }
+    .menu-card.theme-fastfood { background: #ffffff; color: #212121; border: 4px solid #E53935; font-family: 'Impact', 'Arial Black', sans-serif; border-radius: 8px; }
     .menu-card.theme-fastfood::before { display: none; }
     .menu-card.theme-fastfood .menu-header { background: #E53935; color: #FFEB3B; padding: 2rem; }
     .menu-card.theme-fastfood .section-title { color: #E53935; border-bottom: 3px solid #FFEB3B; font-size: 1.5rem; }
     .menu-card.theme-fastfood .item-name { font-family: Arial, sans-serif; font-weight: 900; font-size: 1.2rem; text-transform: uppercase; }
 
-    .menu-card.theme-pizzeria { 
-      background: #FDFBF7; 
-      color: #3E2723; 
-      border: 2px solid #2E7D32; 
-      border-radius: 4px; 
-    }
-    .menu-card.theme-pizzeria::before { 
-      content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; border: 1px solid #C62828; z-index: -1; 
-    }
+    .menu-card.theme-pizzeria { background: #FDFBF7; color: #3E2723; border: 2px solid #2E7D32; border-radius: 4px; }
+    .menu-card.theme-pizzeria::before { content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; border: 1px solid #C62828; z-index: -1; }
     .menu-card.theme-pizzeria .menu-header { background: #2E7D32; color: #ffffff; border-bottom: 4px solid #C62828; }
     .menu-card.theme-pizzeria .section-title { color: #C62828; border-bottom: 2px dashed #2E7D32; font-weight: bold; }
 
-    .menu-card.theme-turkish { 
-      background: #FAFAFA; 
-      color: #212121; 
-      border: 2px solid #B71C1C; 
-    }
+    .menu-card.theme-turkish { background: #FAFAFA; color: #212121; border: 2px solid #B71C1C; }
     .menu-card.theme-turkish::before { border: 1px solid #00838F; top: 8px; left: 8px; right: -8px; bottom: -8px; }
     .menu-card.theme-turkish .menu-header { background: #B71C1C; color: #ffffff; }
     .menu-card.theme-turkish .section-title { color: #00838F; border-bottom: 2px solid #B71C1C; }
 
-    .menu-card.theme-indian { 
-      background: #FFF8E1; 
-      color: #3E2723; 
-      border: 0; 
-      box-shadow: 0 0 0 4px #E65100, 0 0 0 8px #880E4F; 
-      margin: 8px; 
-    }
+    .menu-card.theme-indian { background: #FFF8E1; color: #3E2723; border: 0; box-shadow: 0 0 0 4px #E65100, 0 0 0 8px #880E4F; margin: 8px; }
     .menu-card.theme-indian::before { display: none; }
     .menu-card.theme-indian .menu-header { background: #E65100; color: #ffffff; border-bottom: 5px solid #880E4F; }
     .menu-card.theme-indian .section-title { color: #880E4F; border-bottom: 2px solid #E65100; }
 
-    .menu-card.theme-french { 
-      background: #F9F9F9; 
-      color: #1A237E; 
-      border: 1px solid #1A237E; 
-    }
-    .menu-card.theme-french::before { 
-      border: 1px solid #B71C1C; top: 4px; left: 4px; right: 4px; bottom: 4px; z-index: 1; pointer-events: none; 
-    }
+    .menu-card.theme-french { background: #F9F9F9; color: #1A237E; border: 1px solid #1A237E; }
+    .menu-card.theme-french::before { border: 1px solid #B71C1C; top: 4px; left: 4px; right: 4px; bottom: 4px; z-index: 1; pointer-events: none; }
     .menu-card.theme-french .menu-header { background: #1A237E; color: #ffffff; padding-bottom: 3rem; }
     .menu-card.theme-french .section-title { color: #B71C1C; border-bottom: 1px solid #1A237E; text-align: center; }
 
-    /* --- ÉLÉMENTS UI GÉNÉRAUX --- */
     .timer-badge { display:inline-flex; align-items:center; gap:0.4rem; background:var(--sage); color:white; font-family:'DM Mono',monospace; font-size:0.6rem; padding:0.4rem 0.8rem; border-radius:20px; margin-top:1rem; }
     .action-row { display:flex; gap:0.8rem; margin-top:1.2rem; }
     .btn-action { flex:1; padding:0.75rem; border:1px solid var(--gold-light); background:transparent; font-family:'DM Mono',monospace; font-size:0.6rem; text-transform:uppercase; cursor:pointer; }
@@ -264,7 +175,6 @@
     #qr-preview-box { margin-top:1rem; display:none; align-items:center; gap:1rem; padding:0.8rem; background:rgba(201,168,76,0.06); border:1px solid var(--gold-light); }
     #qr-preview-box img { width:50px; height:50px; object-fit:cover; }
 
-    /* --- SECTION DÉPLOIEMENT --- */
     .deploy-box { margin-top: 2rem; padding: 1.5rem; border: 1px dashed var(--gold); background: rgba(201,168,76,0.05); border-radius: 2px; text-align: center; }
     .deploy-box h3 { margin-bottom: 0.5rem; color: var(--ink); font-size: 1.2rem; }
     .deploy-box p { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--warm-gray); margin-bottom: 1.5rem; line-height: 1.4; }
@@ -274,12 +184,10 @@
     .qr-link { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--rust); font-weight: bold; text-decoration: none; word-break: break-all; }
     .qr-link:hover { text-decoration: underline; }
     
-    /* Bouton Paramètres */
     .settings-btn { margin-top: 3rem; text-align: center; padding-bottom: 2rem; }
     .settings-btn button { background: none; border: none; color: var(--warm-gray); font-family: 'DM Mono', monospace; font-size: 0.7rem; cursor: pointer; text-decoration: underline; transition: color 0.2s; }
     .settings-btn button:hover { color: var(--ink); }
 
-    /* --- BADGE CRÉATEUR (Discret) --- */
     .creator-badge { margin-top: 2rem; padding-top: 1rem; text-align: center; font-family: 'DM Mono', monospace; font-size: 0.55rem; color: inherit; opacity: 0.5; border-top: 1px solid rgba(201,168,76,0.3); line-height: 1.6; transition: opacity 0.3s; }
     .creator-badge:hover { opacity: 0.9; }
     .creator-badge a { color: inherit; text-decoration: none; font-weight: bold; }
@@ -346,7 +254,7 @@
       
       <div id="progress-box">
         <div class="progress-step" id="step-1"><div class="step-dot"></div><span id="lbl-1">Préparation des données</span></div>
-        <div class="progress-step" id="step-2"><div class="step-dot"></div><span id="lbl-2">Traduction et détection des tags en cours...</span></div>
+        <div class="progress-step" id="step-2"><div class="step-dot"></div><span id="lbl-2">Traduction et détection des tags...</span></div>
         <div class="progress-step" id="step-3"><div class="step-dot"></div><span id="lbl-3">Structuration de la carte</span></div>
         <div class="progress-step" id="step-4"><div class="step-dot"></div><span id="lbl-4">Application du thème</span></div>
       </div>
@@ -355,7 +263,7 @@
 
   <div id="output-panel">
     <div class="edit-hint">
-      ✏️ Clic direct pour modifier. Testez les boutons FR/EN ci-dessous pour voir la traduction !
+      ✏️ Clic direct pour modifier. Testez les boutons FR/EN ci-dessous !
     </div>
 
     <div class="style-switcher">
@@ -382,7 +290,7 @@
 
     <div class="deploy-box">
       <h3>🚀 Publier en ligne & Créer QR Code</h3>
-      <p>Crée automatiquement un site web gratuit via GitHub Pages. <br/>(Nécessite un Token d'accès classique avec les droits 'repo')</p>
+      <p>Crée automatiquement un site web gratuit via GitHub Pages.</p>
       
       <div class="deploy-inputs">
         <input type="text" id="gh-token" placeholder="Token GitHub (ghp_...)" />
@@ -395,7 +303,6 @@
         <p style="color:var(--ink); font-weight:bold; margin-bottom:0;">Flashez pour voir le menu !</p>
         <div id="qrcode-box"></div>
         <a id="qr-link" class="qr-link" href="#" target="_blank">Lien de votre menu</a>
-        <p style="font-size:0.65rem; color:var(--warm-gray); margin-top:0.5rem; border:none;">(Note: GitHub Pages peut mettre 1 à 2 minutes avant que le lien soit actif)</p>
       </div>
     </div>
 
@@ -411,13 +318,12 @@
 
 <script>
 /**
- * GESTION SÉCURISÉE DE LA CLÉ API GEMINI
+ * CHARGEMENT DES DONNÉES SAUVEGARDÉES (CLÉS API ET GITHUB)
  */
 let GEMINI_API_KEY = localStorage.getItem("geminiKey");
 
 if (!GEMINI_API_KEY || GEMINI_API_KEY === "null") {
   GEMINI_API_KEY = prompt("🔐 Bienvenue sur MenuAI !\nPour utiliser l'intelligence artificielle, collez votre clé API Gemini ici :");
-  
   if (GEMINI_API_KEY && GEMINI_API_KEY.trim() !== "") {
     GEMINI_API_KEY = GEMINI_API_KEY.trim();
     localStorage.setItem("geminiKey", GEMINI_API_KEY);
@@ -426,9 +332,17 @@ if (!GEMINI_API_KEY || GEMINI_API_KEY === "null") {
   }
 }
 
+// Restauration automatique du Token GitHub au chargement
+window.addEventListener("DOMContentLoaded", () => {
+  const savedGhToken = localStorage.getItem("ghToken");
+  if(savedGhToken) {
+    document.getElementById("gh-token").value = savedGhToken;
+  }
+});
+
 function resetAPIKey() {
   localStorage.removeItem("geminiKey");
-  alert("La clé a été effacée. La page va se recharger pour vous demander la nouvelle clé.");
+  alert("La clé a été effacée. La page va se recharger.");
   location.reload();
 }
 
@@ -471,10 +385,7 @@ function renderThumbs() {
   const div = document.getElementById('photo-previews');
   div.style.display = uploadedPhotos.length ? 'flex' : 'none';
   div.innerHTML = uploadedPhotos.map((p, i) => `
-    <div class="photo-thumb">
-      <img src="${p.preview}" />
-      <button class="remove-btn" onclick="removePhoto(${i})">×</button>
-    </div>
+    <div class="photo-thumb"><img src="${p.preview}" /><button class="remove-btn" onclick="removePhoto(${i})">×</button></div>
   `).join('');
 }
 
@@ -483,9 +394,8 @@ function removePhoto(i) {
   renderThumbs();
 }
 
-// --- APPEL API GEMINI (TRADUCTION ET TAGS STRICTS) ---
 async function callGemini(parts, restoInfo) {
-  if (!GEMINI_API_KEY) throw new Error("Clé API manquante. Cliquez sur 'Changer la clé API' en bas de page.");
+  if (!GEMINI_API_KEY) throw new Error("Clé API manquante.");
 
   const systemPrompt = `Tu es un expert en numérisation de menus, traducteur et designer web.
   INSTRUCTIONS:
@@ -493,10 +403,10 @@ async function callGemini(parts, restoInfo) {
   2. TRADUCTION : Ajoute la traduction en Anglais pour chaque titre de section, nom de plat et description (ajoute _en aux clés JSON).
   3. TAGS : 
      - Ajoute "🌱" UNIQUEMENT pour les Entrées et Plats principaux qui ne contiennent ni viande ni poisson. 
-     - ⚠️ RÈGLE STRICTE : Ne mets JAMAIS le tag "🌱" sur les Desserts ni sur les Boissons, sauf si le menu d'origine contient explicitement le mot "Vegan" ou "Végétalien".
-     - Ajoute "🌶️" si le plat est clairement décrit comme épicé.
+     - ⚠️ RÈGLE STRICTE : Ne mets JAMAIS le tag "🌱" sur les Desserts ni sur les Boissons, sauf si explicite.
+     - Ajoute "🌶️" si épicé.
      - Mets un tableau vide [] par défaut.
-  4. DESIGN : Analyse l'image et fournis un design adapté avec des codes couleurs HEX.
+  4. DESIGN : Fournis un design adapté avec des codes couleurs HEX.
   5. Réponds UNIQUEMENT en JSON valide.
   
   STRUCTURE JSON:
@@ -505,16 +415,9 @@ async function callGemini(parts, restoInfo) {
     "tagline": "Cuisine Inspirée • ${restoInfo.addr || 'Fait Maison'}",
     "tagline_en": "Inspired Cuisine • Homemade",
     "address": "${restoInfo.addr || ''}",
-    "design": {
-      "backgroundColor": "#HEX", "textColor": "#HEX", "primaryColor": "#HEX", "accentColor": "#HEX", "fontStyle": "serif"
-    },
+    "design": { "backgroundColor": "#HEX", "textColor": "#HEX", "primaryColor": "#HEX", "accentColor": "#HEX", "fontStyle": "serif" },
     "sections": [
-      { 
-        "title": "Entrées", "title_en": "Starters", 
-        "items": [
-          { "name": "Plat", "name_en": "Dish", "desc": "Desc FR", "desc_en": "Desc EN", "price": "10€", "tags": ["🌱", "🌶️"] }
-        ] 
-      }
+      { "title": "Entrées", "title_en": "Starters", "items": [ { "name": "Plat", "name_en": "Dish", "desc": "Desc", "desc_en": "Desc EN", "price": "10€", "tags": ["🌱"] } ] }
     ]
   }`;
 
@@ -531,13 +434,8 @@ async function callGemini(parts, restoInfo) {
     if (errorDetails.error?.code === 404) {
         const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
         resp = await fetch(fallbackUrl, { method: "POST", body: JSON.stringify(body) });
-        if (!resp.ok) {
-           const finalError = await resp.json();
-           throw new Error("Erreur API : " + (finalError.error?.message || "Modèle introuvable."));
-        }
-    } else {
-        throw new Error(errorDetails.error?.message || "Erreur API.");
-    }
+        if (!resp.ok) throw new Error("Erreur API.");
+    } else throw new Error(errorDetails.error?.message || "Erreur API.");
   }
   
   const json = await resp.json();
@@ -547,61 +445,39 @@ async function callGemini(parts, restoInfo) {
 async function analyzePhotos() {
   if (!uploadedPhotos.length) return showError("Veuillez ajouter au moins une photo.");
   const startTime = Date.now();
-  const name = document.getElementById('resto-name').value;
-  const addr = document.getElementById('resto-address').value;
-  setLoading(true);
-  showProgress();
-
+  setLoading(true); showProgress();
   try {
     await advanceStep(1, 400);
     const parts = uploadedPhotos.map(p => ({ inlineData: { mimeType: p.mimeType, data: p.data } }));
     await advanceStep(2, 200);
-    const data = await callGemini(parts, {name, addr});
-    await advanceStep(3, 400);
-    await advanceStep(4, 200);
+    const data = await callGemini(parts, {name: document.getElementById('resto-name').value, addr: document.getElementById('resto-address').value});
+    await advanceStep(3, 400); await advanceStep(4, 200);
     renderMenu(data, ((Date.now() - startTime) / 1000).toFixed(1));
-  } catch(e) {
-    showError("Échec de l'analyse : " + e.message);
-  } finally {
-    setLoading(false);
-    hideProgress();
-  }
+  } catch(e) { showError(e.message); } finally { setLoading(false); hideProgress(); }
 }
 
 async function generateFromURL() {
   const urlStr = document.getElementById('url-input').value;
   if (!urlStr) return showError("Veuillez entrer une URL valide.");
   const startTime = Date.now();
-  setLoading(true);
-  showProgress();
-
+  setLoading(true); showProgress();
   try {
     await advanceStep(1, 400);
     const parts = [{ text: "Génère un menu structuré à partir du contenu de cette page : " + urlStr }];
     await advanceStep(2, 600);
     const data = await callGemini(parts, {name:"", addr:""});
     renderMenu(data, ((Date.now() - startTime) / 1000).toFixed(1));
-  } catch(e) {
-    showError("Échec de l'analyse : " + e.message);
-  } finally {
-    setLoading(false);
-    hideProgress();
-  }
+  } catch(e) { showError(e.message); } finally { setLoading(false); hideProgress(); }
 }
 
-// --- RENDU HTML DE LA CARTE ---
 function renderMenu(data, elapsed) {
   const card = document.getElementById('menu-card');
-  
   if (data.design) {
     card.style.setProperty('--ai-bg', data.design.backgroundColor || '#ffffff');
     card.style.setProperty('--ai-text', data.design.textColor || '#111111');
     card.style.setProperty('--ai-primary', data.design.primaryColor || '#333333');
     card.style.setProperty('--ai-accent', data.design.accentColor || '#cccccc');
-    let font = "'Cormorant Garamond', serif";
-    if(data.design.fontStyle === 'sans-serif') font = "Arial, Helvetica, sans-serif";
-    if(data.design.fontStyle === 'cursive') font = "'Brush Script MT', cursive, serif";
-    card.style.setProperty('--ai-font', font);
+    card.style.setProperty('--ai-font', data.design.fontStyle === 'sans-serif' ? "Arial, Helvetica, sans-serif" : "'Cormorant Garamond', serif");
   }
 
   card.innerHTML = `
@@ -609,18 +485,15 @@ function renderMenu(data, elapsed) {
       <button class="show-fr-btn" onclick="document.getElementById('menu-card').classList.remove('show-en');">🇫🇷 FR</button>
       <button class="show-en-btn" onclick="document.getElementById('menu-card').classList.add('show-en');">🇬🇧 EN</button>
     </div>
-    
     <div class="menu-header">
       <div class="menu-restaurant-name" contenteditable="true">${data.name}</div>
       <div class="menu-tagline-text lang-fr" contenteditable="true">${data.tagline}</div>
       <div class="menu-tagline-text lang-en" contenteditable="true">${data.tagline_en || data.tagline}</div>
     </div>
-    
     ${data.sections.map(s => `
       <div class="menu-section">
         <div class="section-title lang-fr" contenteditable="true">${s.title}</div>
         <div class="section-title lang-en" contenteditable="true">${s.title_en || s.title}</div>
-        
         ${s.items.map(it => `
           <div class="menu-item">
             <div style="flex:1;">
@@ -637,179 +510,99 @@ function renderMenu(data, elapsed) {
         `).join('')}
       </div>
     `).join('')}
-    
     <div class="menu-footer" contenteditable="true">${data.address}</div>
-
     <div class="creator-badge" contenteditable="false">
       Créé par Akasche MAHINTAN, contactez-moi au <a href="tel:+33698323121">06.98.32.31.21</a>, <a href="mailto:akasche.pro@gmail.com">akasche.pro@gmail.com</a>
     </div>
   `;
-  
-  document.getElementById('theme-select').value = 'theme-custom';
-  changeTheme(); 
+  document.getElementById('theme-select').value = 'theme-custom'; changeTheme(); 
   document.getElementById('output-panel').style.display = 'block';
-  document.getElementById('timer-display').innerHTML = `<div class="timer-badge">Généré en ${elapsed}s (Traduction incluse)</div>`;
+  document.getElementById('timer-display').innerHTML = `<div class="timer-badge">Généré en ${elapsed}s</div>`;
   window.scrollTo({top: document.getElementById('output-panel').offsetTop - 20, behavior: 'smooth'});
 }
 
-function setLoading(val) {
-  document.getElementById('btn-analyze').disabled = val;
-  document.getElementById('btn-generate').disabled = val;
-}
-
-function showError(m) {
-  const b = document.getElementById('error-box');
-  b.textContent = m;
-  b.style.display = 'block';
-}
-
-function hideError() {
-  document.getElementById('error-box').style.display = 'none';
-}
-
-function showProgress() {
-  document.getElementById('progress-box').style.display = 'block';
-  currentStep = -1;
-}
-
-function hideProgress() {
-  setTimeout(() => document.getElementById('progress-box').style.display = 'none', 800);
-}
-
-async function advanceStep(n, d) {
-  if (currentStep >= 0) {
-    document.getElementById('step-' + (currentStep + 1)).className = 'progress-step done';
-  }
-  currentStep = n - 1;
-  document.getElementById('step-' + (currentStep + 1)).className = 'progress-step active';
-  await new Promise(r => setTimeout(r, d));
-}
+function setLoading(v) { document.getElementById('btn-analyze').disabled = v; document.getElementById('btn-generate').disabled = v; }
+function showError(m) { const b = document.getElementById('error-box'); b.textContent = m; b.style.display = 'block'; }
+function hideError() { document.getElementById('error-box').style.display = 'none'; }
+function showProgress() { document.getElementById('progress-box').style.display = 'block'; currentStep = -1; }
+function hideProgress() { setTimeout(() => document.getElementById('progress-box').style.display = 'none', 800); }
+async function advanceStep(n, d) { if (currentStep >= 0) document.getElementById('step-' + (currentStep + 1)).className = 'progress-step done'; currentStep = n - 1; document.getElementById('step-' + (currentStep + 1)).className = 'progress-step active'; await new Promise(r => setTimeout(r, d)); }
 
 function downloadMenu() {
-  let content = document.getElementById('menu-card').outerHTML;
-  content = content.replace(/contenteditable="true"/g, '');
-  const styles = document.querySelector('style').innerHTML; 
-  const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/><style>${styles} body { background: #f0f0f0; padding: 40px; font-family: sans-serif; } .menu-card { max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }</style></head><body>${content}</body></html>`;
-  const blob = new Blob([fullHtml], {type:'text/html'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'carte-menu.html';
-  a.click();
+  let content = document.getElementById('menu-card').outerHTML.replace(/contenteditable="true"/g, '');
+  const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/><style>${document.querySelector('style').innerHTML} body { background: #f0f0f0; padding: 40px; font-family: sans-serif; } .menu-card { max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }</style></head><body>${content}</body></html>`;
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([fullHtml], {type:'text/html'})); a.download = 'carte-menu.html'; a.click();
 }
 
-const fileInput = document.getElementById('file-input');
-fileInput.addEventListener('change', e => {
-  const f = e.target.files[0];
-  if (!f) return;
+document.getElementById('file-input').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
   const r = new FileReader();
   r.onload = ev => {
     const img = new Image();
     img.onload = () => {
-      const c = document.getElementById('qr-canvas');
-      const ctx = c.getContext('2d');
-      c.width = img.width;
-      c.height = img.height;
-      ctx.drawImage(img, 0, 0);
+      const c = document.getElementById('qr-canvas'); const ctx = c.getContext('2d');
+      c.width = img.width; c.height = img.height; ctx.drawImage(img, 0, 0);
       const code = jsQR(ctx.getImageData(0, 0, c.width, c.height).data, c.width, c.height);
       if (code) {
         document.getElementById('url-input').value = code.data;
         document.getElementById('qr-preview-box').style.display = 'flex';
         document.getElementById('qr-preview-img').src = ev.target.result;
         document.getElementById('qr-url-display').textContent = "Lien : " + code.data;
-      } else {
-        showError("QR Code illisible.");
-      }
-    };
-    img.src = ev.target.result;
-  };
-  r.readAsDataURL(f);
+      } else showError("QR Code illisible.");
+    }; img.src = ev.target.result;
+  }; r.readAsDataURL(f);
 });
 
 async function deployAndGenerateQR() {
   const token = document.getElementById('gh-token').value.trim();
   let repoName = document.getElementById('gh-repo').value.trim();
-  const btn = document.getElementById('btn-deploy');
-
+  
   if (!token || !repoName) return showError("Le Token GitHub et le Nom du lien sont obligatoires.");
+  
+  // SAUVEGARDE AUTOMATIQUE DU TOKEN GITHUB
+  localStorage.setItem("ghToken", token);
+  
   repoName = repoName.replace(/\s+/g, '-').toLowerCase(); 
-  btn.disabled = true;
-  btn.textContent = "⚙️ Déploiement en cours...";
-  hideError();
+  const btn = document.getElementById('btn-deploy');
+  btn.disabled = true; btn.textContent = "⚙️ Déploiement en cours..."; hideError();
 
   try {
     let res = await fetch('https://api.github.com/user', { headers: { 'Authorization': `token ${token}` } });
     if (!res.ok) throw new Error("Token GitHub invalide.");
-    const user = await res.json();
-    const username = user.login;
+    const username = (await res.json()).login;
 
-    await fetch('https://api.github.com/user/repos', {
-      method: 'POST',
-      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: repoName, auto_init: true })
-    });
+    await fetch('https://api.github.com/user/repos', { method: 'POST', headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ name: repoName, auto_init: true }) });
 
-    let content = document.getElementById('menu-card').outerHTML;
-    content = content.replace(/contenteditable="true"/g, '');
-
-    const styles = document.querySelector('style').innerHTML; 
-    const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Menu | ${username}</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/><style>${styles} body { background: #f5f0e8; padding: 15px; } .menu-card { max-width: 800px; margin: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }</style></head><body>${content}</body></html>`;
-    
-    const encodedHtml = btoa(unescape(encodeURIComponent(fullHtml)));
+    let content = document.getElementById('menu-card').outerHTML.replace(/contenteditable="true"/g, '');
+    const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Menu | ${username}</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/><style>${document.querySelector('style').innerHTML} body { background: #f5f0e8; padding: 15px; } .menu-card { max-width: 800px; margin: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }</style></head><body>${content}</body></html>`;
     const putUrl = `https://api.github.com/repos/${username}/${repoName}/contents/index.html`;
+    
     let fileSha = null;
     const getRes = await fetch(putUrl, { headers: { 'Authorization': `token ${token}` } });
-    if (getRes.ok) {
-      const fileData = await getRes.json();
-      fileSha = fileData.sha;
-    }
+    if (getRes.ok) fileSha = (await getRes.json()).sha;
 
-    const body = { message: "MenuAI Premium Deploy", content: encodedHtml };
+    const body = { message: "MenuAI Deploy", content: btoa(unescape(encodeURIComponent(fullHtml))) };
     if (fileSha) body.sha = fileSha;
 
-    res = await fetch(putUrl, {
-      method: 'PUT',
-      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
+    res = await fetch(putUrl, { method: 'PUT', headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (!res.ok) throw new Error("Impossible de créer la page web sur GitHub.");
 
-    await fetch(`https://api.github.com/repos/${username}/${repoName}/pages`, {
-      method: 'POST',
-      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.switcheroo-preview+json' },
-      body: JSON.stringify({ source: { branch: 'main', path: '/' } })
-    });
+    await fetch(`https://api.github.com/repos/${username}/${repoName}/pages`, { method: 'POST', headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.switcheroo-preview+json' }, body: JSON.stringify({ source: { branch: 'main', path: '/' } }) });
 
     const pageUrl = `https://${username}.github.io/${repoName}/`;
     document.getElementById('qrcode-box').innerHTML = ''; 
-    new QRCode(document.getElementById("qrcode-box"), {
-      text: pageUrl,
-      width: 180,
-      height: 180,
-      colorDark : "#1A1410",
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.H
-    });
+    new QRCode(document.getElementById("qrcode-box"), { text: pageUrl, width: 180, height: 180, colorDark : "#1A1410", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H });
     
-    document.getElementById('qr-link').href = pageUrl;
-    document.getElementById('qr-link').textContent = pageUrl;
-    document.getElementById('qrcode-container').style.display = 'flex';
-    btn.textContent = "✅ Déploiement réussi !";
-    setTimeout(() => { btn.disabled = false; btn.textContent = "Mettre à jour la page"; }, 3000);
-
-  } catch(e) {
-    showError(e.message);
-    btn.disabled = false;
-    btn.textContent = "Générer le site web et le QR";
-  }
+    document.getElementById('qr-link').href = pageUrl; document.getElementById('qr-link').textContent = pageUrl; document.getElementById('qrcode-container').style.display = 'flex';
+    btn.textContent = "✅ Déploiement réussi !"; setTimeout(() => { btn.disabled = false; btn.textContent = "Mettre à jour la page"; }, 3000);
+  } catch(e) { showError(e.message); btn.disabled = false; btn.textContent = "Générer le site web et le QR"; }
 }
 </script>
 
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(registration => console.log('ServiceWorker enregistré avec succès !'))
-        .catch(err => console.log('Échec de l\'enregistrement du ServiceWorker :', err));
+      navigator.serviceWorker.register('./sw.js').then(() => console.log('SW V2 enregistré.'));
     });
   }
 </script>
