@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MenuAI | Version Ultime & Éditable</title>
+  <title>MenuAI | Version SaaS Premium (Traduction & Tags Intelligents)</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -71,8 +71,19 @@
     .style-switcher label { font-family: 'DM Mono', monospace; font-size: 0.75rem; text-transform: uppercase; color: var(--ink); font-weight: bold; }
     .style-switcher select { padding: 0.5rem 1rem; border: 1px solid var(--gold); border-radius: 2px; background: white; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; outline: none; cursor: pointer; color: var(--ink); min-width: 200px; }
 
+    /* --- GESTION TRADUCTION & TAGS --- */
+    .lang-switch-ui { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem; }
+    .lang-switch-ui button { padding: 6px 12px; font-family: 'DM Mono', monospace; font-size: 0.7rem; cursor: pointer; border: 1px solid var(--gold-light); background: transparent; border-radius: 2px; transition: 0.2s; }
+    .lang-en { display: none; }
+    .show-en .lang-fr { display: none; }
+    .show-en .lang-en { display: block; }
+    .show-fr-btn { background: var(--gold-light) !important; color: var(--ink); }
+    .show-en .show-fr-btn { background: transparent !important; }
+    .show-en .show-en-btn { background: var(--gold-light) !important; color: var(--ink); }
+    .item-tags { font-size: 0.9rem; margin-left: 8px; user-select: none; }
+
     /* --- BASE CARTE MENU --- */
-    .menu-card { transition: all 0.3s ease; background: var(--card-bg); color: var(--ink); border: 1px solid var(--gold-light); border-radius: 2px; position: relative; padding-bottom: 2rem; font-family: 'Cormorant Garamond', Georgia, serif; }
+    .menu-card { transition: all 0.3s ease; background: var(--card-bg); color: var(--ink); border: 1px solid var(--gold-light); border-radius: 2px; position: relative; padding-bottom: 2rem; font-family: 'Cormorant Garamond', Georgia, serif; padding-top: 2rem;}
     .menu-card::before { content:''; position:absolute; top:6px; left:6px; right:-6px; bottom:-6px; border:1px solid var(--gold-light); border-radius:2px; z-index:-1; transition: all 0.3s ease; }
     .menu-header { background: var(--ink); color: var(--cream); padding: 2.5rem; text-align: center; position: relative; transition: all 0.3s ease; }
     .menu-restaurant-name { font-size: 2rem; font-weight: 300; letter-spacing: 0.2em; font-family: 'Cormorant Garamond', serif; }
@@ -80,10 +91,24 @@
     .menu-section { padding: 1.5rem 2.5rem 0.5rem; }
     .section-title { font-size: 1.1rem; font-weight: 600; letter-spacing: 0.15em; color: var(--rust); text-transform: uppercase; margin-bottom: 1rem; border-bottom: 1px solid var(--gold-light); transition: all 0.3s ease; }
     .menu-item { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.6rem 0; border-bottom: 1px dotted rgba(201,168,76,0.2); transition: all 0.3s ease; }
-    .item-name { font-size: 1.1rem; font-weight: 500; color: inherit; }
+    .item-name-block { display: flex; align-items: center; }
+    .item-name { font-size: 1.1rem; font-weight: 500; color: inherit; display: inline-block; }
     .item-desc { font-size: 0.85rem; font-style: italic; color: var(--warm-gray); margin-top: 0.2rem; }
     .item-price { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--gold); font-weight: bold; white-space: nowrap; }
     .menu-footer { margin-top: 2rem; padding: 1rem; text-align: center; border-top: 1px solid var(--gold-light); font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--warm-gray); transition: all 0.3s ease; }
+
+    /* =========================================
+       THÈME SUR-MESURE (GÉNÉRÉ PAR IA) 
+    ========================================= */
+    .menu-card.theme-custom { background-color: var(--ai-bg, #ffffff); color: var(--ai-text, #111111); border: 2px solid var(--ai-primary, #333333); font-family: var(--ai-font, 'Cormorant Garamond', serif); }
+    .menu-card.theme-custom::before { border: 1px solid var(--ai-accent, #cccccc); top: 6px; left: 6px; right: -6px; bottom: -6px; }
+    .menu-card.theme-custom .menu-header { background-color: var(--ai-primary, #333333); color: var(--ai-bg, #ffffff); border-bottom: 3px solid var(--ai-accent, #cccccc); }
+    .menu-card.theme-custom .section-title { color: var(--ai-primary, #333333); border-bottom: 2px dashed var(--ai-accent, #cccccc); }
+    .menu-card.theme-custom .item-name { color: var(--ai-text, #111111); }
+    .menu-card.theme-custom .item-desc { color: var(--ai-text, #555555); opacity: 0.8; }
+    .menu-card.theme-custom .item-price { color: var(--ai-primary, #333333); background: var(--ai-bg, transparent); padding: 0 4px; }
+    .menu-card.theme-custom .menu-item { border-bottom: 1px dotted var(--ai-accent, #cccccc); }
+    .menu-card.theme-custom .menu-footer { border-top: 1px solid var(--ai-accent, #cccccc); color: var(--ai-text, #111111); opacity: 0.7; }
 
     /* THEMES SUPPLEMENTAIRES INCLUS */
     .menu-card.theme-minimal { background: #ffffff; color: #111111; border: 1px solid #e0e0e0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
@@ -157,7 +182,7 @@
     <h1>Menu<span>AI</span></h1>
     <div class="logo-ornament right"></div>
   </div>
-  <p class="tagline">Génération de carte par IA (Gemini 2.5)</p>
+  <p class="tagline">Génération SaaS (IA, Traduction, Tags)</p>
   <div class="tabs">
     <button class="tab active" onclick="switchTab('photo')">Photos du menu</button>
     <button class="tab" onclick="switchTab('qr')">QR Code / URL</button>
@@ -169,7 +194,7 @@
     <div class="panel">
       <div class="tab-content active" id="tab-photo">
         <div class="panel-title">Analysez vos photos</div>
-        <div class="panel-subtitle">Vision intelligente pour extraire plats & prix</div>
+        <div class="panel-subtitle">Extraction, Traduction & Détection Allergènes</div>
         <div class="photo-drop-zone" id="photo-drop-zone">
           <input type="file" id="photo-input" accept="image/*" multiple />
           <span class="drop-icon">📷</span>
@@ -183,7 +208,7 @@
           <label class="info-label">Ville / Adresse</label>
           <input type="text" class="info-input" id="resto-address" placeholder="Ex: Lyon, France" />
         </div>
-        <button class="btn-generate-full" id="btn-analyze" onclick="analyzePhotos()">Générer la carte</button>
+        <button class="btn-generate-full" id="btn-analyze" onclick="analyzePhotos()">Générer la carte complète</button>
       </div>
 
       <div class="tab-content" id="tab-qr">
@@ -209,21 +234,22 @@
       
       <div id="progress-box">
         <div class="progress-step" id="step-1"><div class="step-dot"></div><span id="lbl-1">Préparation des données</span></div>
-        <div class="progress-step" id="step-2"><div class="step-dot"></div><span id="lbl-2">Analyse visuelle en cours...</span></div>
+        <div class="progress-step" id="step-2"><div class="step-dot"></div><span id="lbl-2">Traduction et détection des tags en cours...</span></div>
         <div class="progress-step" id="step-3"><div class="step-dot"></div><span id="lbl-3">Structuration de la carte</span></div>
-        <div class="progress-step" id="step-4"><div class="step-dot"></div><span id="lbl-4">Rendu du design</span></div>
+        <div class="progress-step" id="step-4"><div class="step-dot"></div><span id="lbl-4">Application du thème</span></div>
       </div>
     </div>
   </div>
 
   <div id="output-panel">
     <div class="edit-hint">
-      ✏️ Tapez directement sur les textes ou les prix ci-dessous pour les modifier avant la publication.
+      ✏️ Clic direct pour modifier. Testez les boutons FR/EN ci-dessous pour voir la traduction !
     </div>
 
     <div class="style-switcher">
       <label for="theme-select">🎨 Style du menu :</label>
       <select id="theme-select" onchange="changeTheme()">
+        <option value="theme-custom">✨ 100% Sur-mesure (Créé par IA)</option>
         <option value="theme-classic">🥐 Classique & Bistrot</option>
         <option value="theme-french">🍷 Brasserie Française</option>
         <option value="theme-pizzeria">🍕 Pizzeria / Italien</option>
@@ -235,7 +261,7 @@
       </select>
     </div>
 
-    <div class="menu-card theme-classic" id="menu-card"></div>
+    <div class="menu-card theme-custom" id="menu-card"></div>
     
     <div class="action-row">
       <button class="btn-action" onclick="window.print()">Imprimer</button>
@@ -297,41 +323,42 @@ function resetAPIKey() {
 let uploadedPhotos = [];
 let currentStep = -1;
 
-// --- ONGLET NAVIGATION ---
-function switchTab(tab){
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active',(tab==='photo'&&i===0)||(tab==='qr'&&i===1)));
-  document.getElementById('tab-photo').classList.toggle('active',tab==='photo');
-  document.getElementById('tab-qr').classList.toggle('active',tab==='qr');
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (tab === 'photo' && i === 0) || (tab === 'qr' && i === 1)));
+  document.getElementById('tab-photo').classList.toggle('active', tab === 'photo');
+  document.getElementById('tab-qr').classList.toggle('active', tab === 'qr');
   hideError();
 }
 
-// --- GESTION DU THÈME ---
 function changeTheme() {
   const theme = document.getElementById('theme-select').value;
   document.getElementById('menu-card').className = 'menu-card ' + theme;
 }
 
-// --- GESTION DES PHOTOS ---
 const photoInput = document.getElementById('photo-input');
 photoInput.addEventListener('change', e => handlePhotoFiles(Array.from(e.target.files)));
 
-async function handlePhotoFiles(files){
+async function handlePhotoFiles(files) {
   const imgs = files.filter(f => f.type.startsWith('image/'));
-  for(let f of imgs){
+  for (let f of imgs) {
     const base64 = await fileToBase64(f);
     uploadedPhotos.push({ mimeType: f.type, data: base64.split(',')[1], preview: base64 });
   }
   renderThumbs();
 }
 
-function fileToBase64(file){
-  return new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(file); });
+function fileToBase64(file) {
+  return new Promise(res => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.readAsDataURL(file);
+  });
 }
 
-function renderThumbs(){
+function renderThumbs() {
   const div = document.getElementById('photo-previews');
   div.style.display = uploadedPhotos.length ? 'flex' : 'none';
-  div.innerHTML = uploadedPhotos.map((p,i) => `
+  div.innerHTML = uploadedPhotos.map((p, i) => `
     <div class="photo-thumb">
       <img src="${p.preview}" />
       <button class="remove-btn" onclick="removePhoto(${i})">×</button>
@@ -339,51 +366,65 @@ function renderThumbs(){
   `).join('');
 }
 
-function removePhoto(i){ uploadedPhotos.splice(i,1); renderThumbs(); }
+function removePhoto(i) {
+  uploadedPhotos.splice(i, 1);
+  renderThumbs();
+}
 
-// --- APPEL API GEMINI ---
+// --- APPEL API GEMINI (TRADUCTION ET TAGS AJOUTÉS AU PROMPT - RÈGLE STRICTE) ---
 async function callGemini(parts, restoInfo) {
   if (!GEMINI_API_KEY) throw new Error("Clé API manquante. Cliquez sur 'Changer la clé API' en bas de page.");
 
-  const systemPrompt = `Tu es un expert en numérisation de menus de restaurants.
+  const systemPrompt = `Tu es un expert en numérisation de menus, traducteur et designer web.
   INSTRUCTIONS:
-  1. Extrais TOUS les plats, descriptions et prix.
-  2. Organise par sections logiques (Entrées, Plats, Desserts, Boissons...).
-  3. Formate les prix proprement (ex: 12,00€). Si absent, mets "NC".
-  4. Réponds UNIQUEMENT en JSON valide.
+  1. Extrais TOUS les plats et prix de l'image.
+  2. TRADUCTION : Ajoute la traduction en Anglais pour chaque titre de section, nom de plat et description (ajoute _en aux clés JSON).
+  3. TAGS : 
+     - Ajoute "🌱" UNIQUEMENT pour les Entrées et Plats principaux qui ne contiennent ni viande ni poisson. 
+     - ⚠️ RÈGLE STRICTE : Ne mets JAMAIS le tag "🌱" sur les Desserts ni sur les Boissons, sauf si le menu d'origine contient explicitement le mot "Vegan" ou "Végétalien".
+     - Ajoute "🌶️" si le plat est clairement décrit comme épicé.
+     - Mets un tableau vide [] par défaut.
+  4. DESIGN : Analyse l'image et fournis un design adapté avec des codes couleurs HEX.
+  5. Réponds UNIQUEMENT en JSON valide.
   
   STRUCTURE JSON:
   {
     "name": "${restoInfo.name || 'Le Restaurant'}",
     "tagline": "Cuisine Inspirée • ${restoInfo.addr || 'Fait Maison'}",
+    "tagline_en": "Inspired Cuisine • Homemade",
     "address": "${restoInfo.addr || ''}",
+    "design": {
+      "backgroundColor": "#HEX", "textColor": "#HEX", "primaryColor": "#HEX", "accentColor": "#HEX", "fontStyle": "serif"
+    },
     "sections": [
-      { "title": "SECTION", "items": [{"name": "Nom", "desc": "Desc", "price": "10€"}] }
+      { 
+        "title": "Entrées", "title_en": "Starters", 
+        "items": [
+          { "name": "Plat", "name_en": "Dish", "desc": "Desc FR", "desc_en": "Desc EN", "price": "10€", "tags": ["🌱", "🌶️"] }
+        ] 
+      }
     ]
   }`;
 
   const body = {
     contents: [{ parts: [{ text: systemPrompt }, ...parts] }],
-    generationConfig: { responseMimeType: "application/json", temperature: 0.2 }
+    generationConfig: { responseMimeType: "application/json", temperature: 0.4 }
   };
 
   const primaryUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-  
   let resp = await fetch(primaryUrl, { method: "POST", body: JSON.stringify(body) });
   
-  if(!resp.ok) {
+  if (!resp.ok) {
     const errorDetails = await resp.json();
-    console.warn("Échec sur Gemini 2.5, bascule sur Gemini 2.0...", errorDetails);
-    
-    if(errorDetails.error?.message?.includes("is not found") || errorDetails.error?.code === 404) {
+    if (errorDetails.error?.code === 404) {
         const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
         resp = await fetch(fallbackUrl, { method: "POST", body: JSON.stringify(body) });
-        if(!resp.ok) {
+        if (!resp.ok) {
            const finalError = await resp.json();
            throw new Error("Erreur API : " + (finalError.error?.message || "Modèle introuvable."));
         }
     } else {
-        throw new Error(errorDetails.error?.message || "Erreur de connexion à l'API. Vérifiez votre clé.");
+        throw new Error(errorDetails.error?.message || "Erreur API.");
     }
   }
   
@@ -391,120 +432,148 @@ async function callGemini(parts, restoInfo) {
   return JSON.parse(json.candidates[0].content.parts[0].text);
 }
 
-// --- ACTIONS : GÉNÉRATION VIA PHOTOS ---
-async function analyzePhotos(){
-  if(!uploadedPhotos.length) return showError("Veuillez ajouter au moins une photo.");
+async function analyzePhotos() {
+  if (!uploadedPhotos.length) return showError("Veuillez ajouter au moins une photo.");
   const startTime = Date.now();
   const name = document.getElementById('resto-name').value;
   const addr = document.getElementById('resto-address').value;
-
-  setLoading(true); showProgress();
+  setLoading(true);
+  showProgress();
 
   try {
     await advanceStep(1, 400);
     const parts = uploadedPhotos.map(p => ({ inlineData: { mimeType: p.mimeType, data: p.data } }));
-    
     await advanceStep(2, 200);
     const data = await callGemini(parts, {name, addr});
-    
-    await advanceStep(3, 400); await advanceStep(4, 200);
-    
-    renderMenu(data, ((Date.now() - startTime)/1000).toFixed(1));
+    await advanceStep(3, 400);
+    await advanceStep(4, 200);
+    renderMenu(data, ((Date.now() - startTime) / 1000).toFixed(1));
   } catch(e) {
     showError("Échec de l'analyse : " + e.message);
   } finally {
-    setLoading(false); hideProgress();
+    setLoading(false);
+    hideProgress();
   }
 }
 
-// --- ACTIONS : GÉNÉRATION VIA URL ---
-async function generateFromURL(){
+async function generateFromURL() {
   const urlStr = document.getElementById('url-input').value;
-  if(!urlStr) return showError("Veuillez entrer une URL valide.");
-  
+  if (!urlStr) return showError("Veuillez entrer une URL valide.");
   const startTime = Date.now();
-  setLoading(true); showProgress();
+  setLoading(true);
+  showProgress();
 
   try {
     await advanceStep(1, 400);
     const parts = [{ text: "Génère un menu structuré à partir du contenu de cette page : " + urlStr }];
-    
     await advanceStep(2, 600);
     const data = await callGemini(parts, {name:"", addr:""});
-    
-    renderMenu(data, ((Date.now() - startTime)/1000).toFixed(1));
+    renderMenu(data, ((Date.now() - startTime) / 1000).toFixed(1));
   } catch(e) {
     showError("Échec de l'analyse : " + e.message);
   } finally {
-    setLoading(false); hideProgress();
+    setLoading(false);
+    hideProgress();
   }
 }
 
-// --- RENDU HTML DE LA CARTE (Maintenant Editable par l'utilisateur) ---
-function renderMenu(data, elapsed){
+// --- RENDU HTML DE LA CARTE (AVEC TRADUCTION ET TAGS) ---
+function renderMenu(data, elapsed) {
   const card = document.getElementById('menu-card');
+  
+  if (data.design) {
+    card.style.setProperty('--ai-bg', data.design.backgroundColor || '#ffffff');
+    card.style.setProperty('--ai-text', data.design.textColor || '#111111');
+    card.style.setProperty('--ai-primary', data.design.primaryColor || '#333333');
+    card.style.setProperty('--ai-accent', data.design.accentColor || '#cccccc');
+    let font = "'Cormorant Garamond', serif";
+    if(data.design.fontStyle === 'sans-serif') font = "Arial, Helvetica, sans-serif";
+    if(data.design.fontStyle === 'cursive') font = "'Brush Script MT', cursive, serif";
+    card.style.setProperty('--ai-font', font);
+  }
+
   card.innerHTML = `
+    <div class="lang-switch-ui">
+      <button class="show-fr-btn" onclick="document.getElementById('menu-card').classList.remove('show-en');">🇫🇷 FR</button>
+      <button class="show-en-btn" onclick="document.getElementById('menu-card').classList.add('show-en');">🇬🇧 EN</button>
+    </div>
+    
     <div class="menu-header">
       <div class="menu-restaurant-name" contenteditable="true">${data.name}</div>
-      <div class="menu-tagline-text" contenteditable="true">${data.tagline}</div>
+      <div class="menu-tagline-text lang-fr" contenteditable="true">${data.tagline}</div>
+      <div class="menu-tagline-text lang-en" contenteditable="true">${data.tagline_en || data.tagline}</div>
     </div>
+    
     ${data.sections.map(s => `
       <div class="menu-section">
-        <div class="section-title" contenteditable="true">${s.title}</div>
+        <div class="section-title lang-fr" contenteditable="true">${s.title}</div>
+        <div class="section-title lang-en" contenteditable="true">${s.title_en || s.title}</div>
+        
         ${s.items.map(it => `
           <div class="menu-item">
-            <div>
-              <div class="item-name" contenteditable="true">${it.name}</div>
-              <div class="item-desc" contenteditable="true">${it.desc || ''}</div>
+            <div style="flex:1;">
+              <div class="item-name-block">
+                <span class="item-name lang-fr" contenteditable="true">${it.name}</span>
+                <span class="item-name lang-en" contenteditable="true">${it.name_en || it.name}</span>
+                <span class="item-tags">${(it.tags || []).join('')}</span>
+              </div>
+              <div class="item-desc lang-fr" contenteditable="true">${it.desc || ''}</div>
+              <div class="item-desc lang-en" contenteditable="true">${it.desc_en || ''}</div>
             </div>
             <div class="item-price" contenteditable="true">${it.price}</div>
           </div>
         `).join('')}
       </div>
     `).join('')}
+    
     <div class="menu-footer" contenteditable="true">${data.address}</div>
   `;
   
+  document.getElementById('theme-select').value = 'theme-custom';
   changeTheme(); 
   document.getElementById('output-panel').style.display = 'block';
-  document.getElementById('timer-display').innerHTML = `<div class="timer-badge">Généré en ${elapsed}s (Gemini AI)</div>`;
+  document.getElementById('timer-display').innerHTML = `<div class="timer-badge">Généré en ${elapsed}s (Traduction incluse)</div>`;
   window.scrollTo({top: document.getElementById('output-panel').offsetTop - 20, behavior: 'smooth'});
 }
 
-// --- HELPERS UI ---
-function setLoading(val){
+function setLoading(val) {
   document.getElementById('btn-analyze').disabled = val;
   document.getElementById('btn-generate').disabled = val;
 }
-function showError(m){ const b=document.getElementById('error-box'); b.textContent=m; b.style.display='block'; }
-function hideError(){ document.getElementById('error-box').style.display='none'; }
-function showProgress(){ document.getElementById('progress-box').style.display='block'; currentStep=-1; }
-function hideProgress(){ setTimeout(()=>document.getElementById('progress-box').style.display='none', 800); }
 
-async function advanceStep(n, d){
-  if(currentStep >= 0) document.getElementById('step-'+(currentStep+1)).className='progress-step done';
-  currentStep = n-1;
-  document.getElementById('step-'+(currentStep+1)).className='progress-step active';
+function showError(m) {
+  const b = document.getElementById('error-box');
+  b.textContent = m;
+  b.style.display = 'block';
+}
+
+function hideError() {
+  document.getElementById('error-box').style.display = 'none';
+}
+
+function showProgress() {
+  document.getElementById('progress-box').style.display = 'block';
+  currentStep = -1;
+}
+
+function hideProgress() {
+  setTimeout(() => document.getElementById('progress-box').style.display = 'none', 800);
+}
+
+async function advanceStep(n, d) {
+  if (currentStep >= 0) {
+    document.getElementById('step-' + (currentStep + 1)).className = 'progress-step done';
+  }
+  currentStep = n - 1;
+  document.getElementById('step-' + (currentStep + 1)).className = 'progress-step active';
   await new Promise(r => setTimeout(r, d));
 }
 
-// --- EXPORT HTML LOCAL (Retire l'attribut contenteditable pour la version finale) ---
-function downloadMenu(){
-  // On récupère le HTML mais on enlève la possibilité de l'éditer pour le site final
+function downloadMenu() {
   let content = document.getElementById('menu-card').outerHTML;
   content = content.replace(/contenteditable="true"/g, '');
-
   const styles = document.querySelector('style').innerHTML; 
-  
-  const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
-    <style>
-      ${styles} 
-      body { background: #f0f0f0; padding: 40px; font-family: sans-serif; } 
-      .menu-card { max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-    </style>
-    </head><body>${content}</body></html>`;
-    
+  const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/><style>${styles} body { background: #f0f0f0; padding: 40px; font-family: sans-serif; } .menu-card { max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }</style></head><body>${content}</body></html>`;
   const blob = new Blob([fullHtml], {type:'text/html'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -512,27 +581,27 @@ function downloadMenu(){
   a.click();
 }
 
-// --- LECTURE QR CODE (ONGLET 2) ---
 const fileInput = document.getElementById('file-input');
 fileInput.addEventListener('change', e => {
   const f = e.target.files[0];
-  if(!f) return;
+  if (!f) return;
   const r = new FileReader();
   r.onload = ev => {
     const img = new Image();
     img.onload = () => {
       const c = document.getElementById('qr-canvas');
       const ctx = c.getContext('2d');
-      c.width = img.width; c.height = img.height;
-      ctx.drawImage(img,0,0);
-      const code = jsQR(ctx.getImageData(0,0,c.width,c.height).data, c.width, c.height);
-      if(code){
+      c.width = img.width;
+      c.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      const code = jsQR(ctx.getImageData(0, 0, c.width, c.height).data, c.width, c.height);
+      if (code) {
         document.getElementById('url-input').value = code.data;
         document.getElementById('qr-preview-box').style.display = 'flex';
         document.getElementById('qr-preview-img').src = ev.target.result;
-        document.getElementById('qr-url-display').textContent = "Lien détecté : " + code.data;
+        document.getElementById('qr-url-display').textContent = "Lien : " + code.data;
       } else {
-        showError("QR Code illisible ou image trop floue.");
+        showError("QR Code illisible.");
       }
     };
     img.src = ev.target.result;
@@ -540,23 +609,20 @@ fileInput.addEventListener('change', e => {
   r.readAsDataURL(f);
 });
 
-// --- DÉPLOIEMENT GITHUB PAGES & GÉNÉRATION QR (Nettoie aussi l'édition) ---
 async function deployAndGenerateQR() {
   const token = document.getElementById('gh-token').value.trim();
   let repoName = document.getElementById('gh-repo').value.trim();
   const btn = document.getElementById('btn-deploy');
 
-  if(!token || !repoName) return showError("Le Token GitHub et le Nom du lien sont obligatoires.");
-  
+  if (!token || !repoName) return showError("Le Token GitHub et le Nom du lien sont obligatoires.");
   repoName = repoName.replace(/\s+/g, '-').toLowerCase(); 
-
   btn.disabled = true;
   btn.textContent = "⚙️ Déploiement en cours...";
   hideError();
 
   try {
     let res = await fetch('https://api.github.com/user', { headers: { 'Authorization': `token ${token}` } });
-    if(!res.ok) throw new Error("Le Token GitHub est invalide ou expiré.");
+    if (!res.ok) throw new Error("Token GitHub invalide.");
     const user = await res.json();
     const username = user.login;
 
@@ -566,7 +632,6 @@ async function deployAndGenerateQR() {
       body: JSON.stringify({ name: repoName, auto_init: true })
     });
 
-    // Récupération du HTML et suppression des attributs "contenteditable"
     let content = document.getElementById('menu-card').outerHTML;
     content = content.replace(/contenteditable="true"/g, '');
 
@@ -574,24 +639,23 @@ async function deployAndGenerateQR() {
     const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Menu | ${username}</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/><style>${styles} body { background: #f5f0e8; padding: 15px; } .menu-card { max-width: 800px; margin: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }</style></head><body>${content}</body></html>`;
     
     const encodedHtml = btoa(unescape(encodeURIComponent(fullHtml)));
-
     const putUrl = `https://api.github.com/repos/${username}/${repoName}/contents/index.html`;
     let fileSha = null;
     const getRes = await fetch(putUrl, { headers: { 'Authorization': `token ${token}` } });
-    if(getRes.ok) {
-       const fileData = await getRes.json();
-       fileSha = fileData.sha;
+    if (getRes.ok) {
+      const fileData = await getRes.json();
+      fileSha = fileData.sha;
     }
 
-    const body = { message: "Mise à jour du menu via MenuAI", content: encodedHtml };
-    if(fileSha) body.sha = fileSha;
+    const body = { message: "MenuAI Premium Deploy", content: encodedHtml };
+    if (fileSha) body.sha = fileSha;
 
     res = await fetch(putUrl, {
       method: 'PUT',
       headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
-    if(!res.ok) throw new Error("Impossible de créer la page web sur GitHub.");
+    if (!res.ok) throw new Error("Impossible de créer la page web sur GitHub.");
 
     await fetch(`https://api.github.com/repos/${username}/${repoName}/pages`, {
       method: 'POST',
@@ -600,7 +664,6 @@ async function deployAndGenerateQR() {
     });
 
     const pageUrl = `https://${username}.github.io/${repoName}/`;
-    
     document.getElementById('qrcode-box').innerHTML = ''; 
     new QRCode(document.getElementById("qrcode-box"), {
       text: pageUrl,
@@ -614,7 +677,6 @@ async function deployAndGenerateQR() {
     document.getElementById('qr-link').href = pageUrl;
     document.getElementById('qr-link').textContent = pageUrl;
     document.getElementById('qrcode-container').style.display = 'flex';
-    
     btn.textContent = "✅ Déploiement réussi !";
     setTimeout(() => { btn.disabled = false; btn.textContent = "Mettre à jour la page"; }, 3000);
 
