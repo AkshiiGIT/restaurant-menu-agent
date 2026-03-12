@@ -2,39 +2,39 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>MenuAI | Version SaaS Premium (App Mobile)</title>
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1A1410">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3170/3170733.png">
+  <link rel="apple-touch-icon" href="./app-icon.png">
   
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     :root { --cream:#F5F0E8;--ink:#1A1410;--gold:#C9A84C;--gold-light:#E8D4A0;--rust:#8B3A2A;--sage:#4A5E4A;--warm-gray:#8A847A;--card-bg:#FDFAF4; }
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:var(--cream);color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;min-height:100vh;overflow-x:hidden;}
-    header{position:relative;z-index:1;text-align:center;padding:3rem 1rem 0;border-bottom:1px solid var(--gold-light);}
+    header{position:relative;z-index:1;text-align:center;padding:1rem 1rem 0;border-bottom:1px solid var(--gold-light);}
     .logo-line{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:0.5rem;}
     .logo-ornament{width:40px;height:1px;background:linear-gradient(to right,transparent,var(--gold));}
     .logo-ornament.right{background:linear-gradient(to left,transparent,var(--gold));}
     h1{font-size:2.2rem;font-weight:300;letter-spacing:0.15em;}
     h1 span{color:var(--gold);font-style:italic;}
     .tagline{font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.3em;color:var(--warm-gray);text-transform:uppercase;margin-top:0.5rem;}
-    .tabs{display:flex;justify-content:center;max-width:460px;margin:2rem auto 0;border:1px solid var(--gold-light);border-bottom:none;border-radius:2px 2px 0 0;overflow:hidden;}
+    .tabs{display:flex;justify-content:center;max-width:460px;margin:1rem auto 0;border:1px solid var(--gold-light);border-bottom:none;border-radius:2px 2px 0 0;overflow:hidden;}
     .tab{flex:1;padding:0.85rem 1rem;background:var(--cream);border:none;font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--warm-gray);cursor:pointer;transition:all 0.2s;border-right:1px solid var(--gold-light);}
     .tab:last-child{border-right:none;}
     .tab.active{background:var(--ink);color:var(--cream);}
-    main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:3rem 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+    main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:2rem 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
     @media(max-width:768px){main{grid-template-columns:1fr;gap:2rem;}}
-    .panel{background:var(--card-bg);border:1px solid var(--gold-light);border-radius:2px;padding:2.5rem;position:relative;}
+    .panel{background:var(--card-bg);border:1px solid var(--gold-light);border-radius:2px;padding:2rem;position:relative;}
     .panel::before{content:'';position:absolute;top:6px;left:6px;right:-6px;bottom:-6px;border:1px solid var(--gold-light);border-radius:2px;z-index:-1;}
     .panel-title{font-size:1.1rem;font-weight:600;letter-spacing:0.1em;margin-bottom:0.3rem;}
-    .panel-subtitle{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--warm-gray);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:2rem;}
+    .panel-subtitle{font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--warm-gray);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.5rem;}
     .tab-content{display:none;} .tab-content.active{display:block;}
-    .photo-drop-zone{border:2px dashed var(--gold-light);border-radius:2px;padding:2rem 1.5rem;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;}
+    .photo-drop-zone{border:2px dashed var(--gold-light);border-radius:2px;padding:1.5rem 1.5rem;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;}
     .photo-drop-zone:hover{border-color:var(--gold);background:rgba(201,168,76,0.04);}
     .photo-drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
     .drop-icon{font-size:2.5rem;margin-bottom:0.8rem;display:block;opacity:0.7;}
@@ -55,7 +55,7 @@
     .url-input{flex:1;padding:0.8rem 1rem;border:1px solid var(--gold-light);border-right:none;font-family:'DM Mono',monospace;font-size:0.75rem;outline:none;}
     .btn-generate{padding:0.8rem 1.5rem;background:var(--ink);color:var(--cream);border:none;font-family:'DM Mono',monospace;font-size:0.65rem;text-transform:uppercase;cursor:pointer;}
     #error-box{display:none;margin-top:1rem;padding:1rem;border:1px solid var(--rust);background:rgba(139,58,42,0.05);color:var(--rust);font-family:'DM Mono',monospace;font-size:0.65rem;}
-    #progress-box{display:none;margin-top:1.5rem;}
+    #progress-box{display:none;margin-top:1rem;}
     .progress-step{display:flex;align-items:center;gap:0.8rem;padding:0.5rem 0;font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--warm-gray);opacity:0.4;}
     .progress-step.active{opacity:1;color:var(--ink);}
     .progress-step.done{opacity:0.7;color:var(--sage);}
@@ -88,19 +88,19 @@
     .item-tags { font-size: 0.9rem; margin-left: 8px; user-select: none; }
 
     /* --- BASE CARTE MENU --- */
-    .menu-card { transition: all 0.3s ease; background: var(--card-bg); color: var(--ink); border: 1px solid var(--gold-light); border-radius: 2px; position: relative; padding-bottom: 2rem; font-family: 'Cormorant Garamond', Georgia, serif; padding-top: 2rem;}
+    .menu-card { transition: all 0.3s ease; background: var(--card-bg); color: var(--ink); border: 1px solid var(--gold-light); border-radius: 2px; position: relative; padding-bottom: 2rem; font-family: 'Cormorant Garamond', Georgia, serif; padding-top: 1rem;}
     .menu-card::before { content:''; position:absolute; top:6px; left:6px; right:-6px; bottom:-6px; border:1px solid var(--gold-light); border-radius:2px; z-index:-1; transition: all 0.3s ease; }
-    .menu-header { background: var(--ink); color: var(--cream); padding: 2.5rem; text-align: center; position: relative; transition: all 0.3s ease; }
+    .menu-header { background: var(--ink); color: var(--cream); padding: 2rem; text-align: center; position: relative; transition: all 0.3s ease; }
     .menu-restaurant-name { font-size: 2rem; font-weight: 300; letter-spacing: 0.2em; font-family: 'Cormorant Garamond', serif; }
     .menu-tagline-text { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--gold); margin-top: 0.5rem; text-transform: uppercase; }
-    .menu-section { padding: 1.5rem 2.5rem 0.5rem; }
-    .section-title { font-size: 1.1rem; font-weight: 600; letter-spacing: 0.15em; color: var(--rust); text-transform: uppercase; margin-bottom: 1rem; border-bottom: 1px solid var(--gold-light); transition: all 0.3s ease; }
-    .menu-item { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.6rem 0; border-bottom: 1px dotted rgba(201,168,76,0.2); transition: all 0.3s ease; }
+    .menu-section { padding: 1rem 2rem 0.5rem; }
+    .section-title { font-size: 1rem; font-weight: 600; letter-spacing: 0.15em; color: var(--rust); text-transform: uppercase; margin-bottom: 0.8rem; border-bottom: 1px solid var(--gold-light); transition: all 0.3s ease; }
+    .menu-item { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px dotted rgba(201,168,76,0.2); transition: all 0.3s ease; }
     .item-name-block { display: flex; align-items: center; }
-    .item-name { font-size: 1.1rem; font-weight: 500; color: inherit; display: inline-block; }
-    .item-desc { font-size: 0.85rem; font-style: italic; color: var(--warm-gray); margin-top: 0.2rem; }
-    .item-price { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--gold); font-weight: bold; white-space: nowrap; }
-    .menu-footer { margin-top: 2rem; padding: 1rem; text-align: center; border-top: 1px solid var(--gold-light); font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--warm-gray); transition: all 0.3s ease; }
+    .item-name { font-size: 1rem; font-weight: 500; color: inherit; display: inline-block; }
+    .item-desc { font-size: 0.8rem; font-style: italic; color: var(--warm-gray); margin-top: 0.1rem; }
+    .item-price { font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--gold); font-weight: bold; white-space: nowrap; }
+    .menu-footer { margin-top: 1.5rem; padding: 1rem; text-align: center; border-top: 1px solid var(--gold-light); font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--warm-gray); transition: all 0.3s ease; }
 
     /* =========================================
        THÈME SUR-MESURE (GÉNÉRÉ PAR IA) 
@@ -118,7 +118,7 @@
     /* THEMES SUPPLEMENTAIRES INCLUS */
     .menu-card.theme-minimal { background: #ffffff; color: #111111; border: 1px solid #e0e0e0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
     .menu-card.theme-minimal::before { display: none; }
-    .menu-card.theme-minimal .menu-header { background: #ffffff; color: #111111; border-bottom: 2px solid #111111; padding: 3rem 2rem; }
+    .menu-card.theme-minimal .menu-header { background: #ffffff; color: #111111; border-bottom: 2px solid #111111; padding: 2rem 1.5rem; }
     .menu-card.theme-minimal .section-title { color: #111111; border-bottom: 2px solid #111111; font-family: 'Helvetica Neue', sans-serif; font-weight: 700; }
     .menu-card.theme-minimal .menu-item { border-bottom: 1px solid #f0f0f0; }
     
@@ -130,9 +130,9 @@
 
     .menu-card.theme-fastfood { background: #ffffff; color: #212121; border: 4px solid #E53935; font-family: 'Impact', 'Arial Black', sans-serif; border-radius: 8px; }
     .menu-card.theme-fastfood::before { display: none; }
-    .menu-card.theme-fastfood .menu-header { background: #E53935; color: #FFEB3B; padding: 2rem; }
-    .menu-card.theme-fastfood .section-title { color: #E53935; border-bottom: 3px solid #FFEB3B; font-size: 1.5rem; }
-    .menu-card.theme-fastfood .item-name { font-family: Arial, sans-serif; font-weight: 900; font-size: 1.2rem; text-transform: uppercase; }
+    .menu-card.theme-fastfood .menu-header { background: #E53935; color: #FFEB3B; padding: 1.5rem; }
+    .menu-card.theme-fastfood .section-title { color: #E53935; border-bottom: 3px solid #FFEB3B; font-size: 1.2rem; }
+    .menu-card.theme-fastfood .item-name { font-family: Arial, sans-serif; font-weight: 900; font-size: 1rem; text-transform: uppercase; }
 
     .menu-card.theme-pizzeria { background: #FDFBF7; color: #3E2723; border: 2px solid #2E7D32; border-radius: 4px; }
     .menu-card.theme-pizzeria::before { content: ''; position: absolute; top: 4px; left: 4px; right: 4px; bottom: 4px; border: 1px solid #C62828; z-index: -1; }
@@ -151,7 +151,7 @@
 
     .menu-card.theme-french { background: #F9F9F9; color: #1A237E; border: 1px solid #1A237E; }
     .menu-card.theme-french::before { border: 1px solid #B71C1C; top: 4px; left: 4px; right: 4px; bottom: 4px; z-index: 1; pointer-events: none; }
-    .menu-card.theme-french .menu-header { background: #1A237E; color: #ffffff; padding-bottom: 3rem; }
+    .menu-card.theme-french .menu-header { background: #1A237E; color: #ffffff; padding-bottom: 2rem; }
     .menu-card.theme-french .section-title { color: #B71C1C; border-bottom: 1px solid #1A237E; text-align: center; }
 
     /* --- ÉLÉMENTS UI GÉNÉRAUX --- */
@@ -166,10 +166,10 @@
     /* --- SECTION DÉPLOIEMENT --- */
     .deploy-box { margin-top: 2rem; padding: 1.5rem; border: 1px dashed var(--gold); background: rgba(201,168,76,0.05); border-radius: 2px; text-align: center; }
     .deploy-box h3 { margin-bottom: 0.5rem; color: var(--ink); font-size: 1.2rem; }
-    .deploy-box p { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--warm-gray); margin-bottom: 1.5rem; line-height: 1.4; }
-    .deploy-inputs { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .deploy-box p { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--warm-gray); margin-bottom: 1rem; line-height: 1.4; }
+    .deploy-inputs { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
     .deploy-inputs input { padding: 0.8rem; border: 1px solid var(--gold-light); border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.75rem; width: 220px; outline: none; }
-    #qrcode-container { margin-top: 2rem; display: none; flex-direction: column; align-items: center; gap: 1rem; background: white; padding: 1.5rem; border: 1px solid var(--gold-light); }
+    #qrcode-container { margin-top: 1.5rem; display: none; flex-direction: column; align-items: center; gap: 1rem; background: white; padding: 1.5rem; border: 1px solid var(--gold-light); }
     .qr-link { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--rust); font-weight: bold; text-decoration: none; word-break: break-all; }
     .qr-link:hover { text-decoration: underline; }
     
@@ -177,9 +177,46 @@
     .settings-btn { margin-top: 3rem; text-align: center; padding-bottom: 2rem; }
     .settings-btn button { background: none; border: none; color: var(--warm-gray); font-family: 'DM Mono', monospace; font-size: 0.7rem; cursor: pointer; text-decoration: underline; transition: color 0.2s; }
     .settings-btn button:hover { color: var(--ink); }
+
+    /* --- PANNEAU DE CONFIGURATION DE BIENVENUE --- */
+    #config-modal { display: none; position: fixed; inset: 0; background: rgba(26,20,16,0.95); z-index: 1000; align-items: center; justify-content: center; padding: 2rem; }
+    #config-modal.active { display: flex; }
+    .config-panel { background: var(--card-bg); border: 2px solid var(--gold); border-radius: 4px; padding: 3rem; max-width: 500px; text-align: center; box-shadow: 0 10px 50px rgba(0,0,0,0.5); }
+    .config-logo { font-size: 3rem; margin-bottom: 1rem; color: var(--gold); }
+    .config-title { font-size: 1.8rem; font-weight: 300; color: var(--ink); margin-bottom: 0.5rem; }
+    .config-title span { color: var(--gold); font-style: italic; }
+    .config-subtitle { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--warm-gray); text-transform: uppercase; margin-bottom: 2rem; }
+    .config-group { margin-bottom: 1.5rem; text-align: left; }
+    .config-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--gold); text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+    .config-input { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--gold-light); border-radius: 2px; background: white; font-family: 'Cormorant Garamond', serif; font-size: 1rem; outline: none; }
+    .config-hint { font-size: 0.8rem; font-style: italic; color: var(--warm-gray); margin-top: 0.4rem; line-height: 1.3; }
+    .btn-save-config { display: block; width: 100%; padding: 1rem; background: var(--gold); color: var(--ink); border: none; font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.2s; border-radius: 2px; }
+    .btn-save-config:hover { background: var(--gold-light); }
   </style>
 </head>
 <body>
+
+<div id="config-modal">
+  <div class="config-panel">
+    <div class="config-logo">🧑‍🍳</div>
+    <div class="config-title">Bienvenue sur Menu<span>AI</span></div>
+    <div class="config-subtitle">Configuration de vos clés professionnelles</div>
+    
+    <div class="config-group">
+      <label class="config-label">Clé API Gemini (IA)</label>
+      <input type="text" class="config-input" id="setup-gemini-key" placeholder="AIzaSy..."/>
+      <p class="config-hint">Requise pour l'analyse de photos et la traduction.</p>
+    </div>
+    
+    <div class="config-group">
+      <label class="config-label">Token GitHub Classique (ghp_...)</label>
+      <input type="text" class="config-input" id="setup-gh-token" placeholder="ghp_..."/>
+      <p class="config-hint">Requis pour publier les menus et générer le QR Code. Le token doit avoir les droits 'repo'.</p>
+    </div>
+    
+    <button class="btn-save-config" onclick="saveConfiguration()">Enregistrer et commencer</button>
+  </div>
+</div>
 
 <header>
   <div class="logo-line">
@@ -187,7 +224,7 @@
     <h1>Menu<span>AI</span></h1>
     <div class="logo-ornament right"></div>
   </div>
-  <p class="tagline">Génération SaaS (IA, Traduction, Tags)</p>
+  <p class="tagline">Génération SaaS (IA, Traduction, Tags Intelligents)</p>
   <div class="tabs">
     <button class="tab active" onclick="switchTab('photo')">Photos du menu</button>
     <button class="tab" onclick="switchTab('qr')">QR Code / URL</button>
@@ -275,10 +312,9 @@
 
     <div class="deploy-box">
       <h3>🚀 Publier en ligne & Créer QR Code</h3>
-      <p>Crée automatiquement un site web gratuit via GitHub Pages. <br/>(Nécessite un Token d'accès classique avec les droits 'repo')</p>
+      <p>Crée automatiquement un site web gratuit via GitHub Pages.</p>
       
       <div class="deploy-inputs">
-        <input type="text" id="gh-token" placeholder="Token GitHub (ghp_...)" />
         <input type="text" id="gh-repo" placeholder="Nom du lien (ex: menu-resto)" />
       </div>
       
@@ -296,7 +332,7 @@
   </div>
 
   <div class="settings-btn">
-    <button onclick="resetAPIKey()">⚙️ Changer la clé API Gemini</button>
+    <button onclick="resetConfiguration()">⚙️ Paramètres : Changer les clés API</button>
   </div>
 </main>
 
@@ -304,25 +340,50 @@
 
 <script>
 /**
- * GESTION SÉCURISÉE DE LA CLÉ API GEMINI
+ * GESTION SÉCURISÉE DES CLÉS API (localStorage)
  */
 let GEMINI_API_KEY = localStorage.getItem("geminiKey");
+let GITHUB_TOKEN = localStorage.getItem("githubToken");
 
-if (!GEMINI_API_KEY || GEMINI_API_KEY === "null") {
-  GEMINI_API_KEY = prompt("🔐 Bienvenue sur MenuAI !\nPour utiliser l'intelligence artificielle, collez votre clé API Gemini ici :");
-  
-  if (GEMINI_API_KEY && GEMINI_API_KEY.trim() !== "") {
-    GEMINI_API_KEY = GEMINI_API_KEY.trim();
-    localStorage.setItem("geminiKey", GEMINI_API_KEY);
+// Au chargement : vérifier si les clés existent
+window.addEventListener('load', () => {
+  if (!GEMINI_API_KEY || !GITHUB_TOKEN) {
+    document.getElementById('config-modal').classList.add('active');
   } else {
-    alert("⚠️ Vous devez rafraîchir la page et entrer une clé API pour que l'application fonctionne.");
+    // Si elles existent, remplir les champs cachés pour l'analyse
+    // (Pas strictement nécessaire ici car on les charge dans les variables globales)
   }
+});
+
+function saveConfiguration() {
+  const gemini = document.getElementById('setup-gemini-key').value.trim();
+  const github = document.getElementById('setup-gh-token').value.trim();
+  
+  if (!gemini || !github) {
+    alert("Les deux clés sont obligatoires pour que l'application fonctionne.");
+    return;
+  }
+  
+  localStorage.setItem("geminiKey", gemini);
+  localStorage.setItem("githubToken", github);
+  
+  // Mettre à jour les variables globales
+  GEMINI_API_KEY = gemini;
+  GITHUB_TOKEN = github;
+  
+  // Masquer la modal
+  document.getElementById('config-modal').classList.remove('active');
+  alert("C'est parfait ! Vos clés sont enregistrées en toute sécurité dans votre téléphone.");
 }
 
-function resetAPIKey() {
-  localStorage.removeItem("geminiKey");
-  alert("La clé a été effacée. La page va se recharger pour vous demander la nouvelle clé.");
-  location.reload();
+function resetConfiguration() {
+  const confirmReset = confirm("Voulez-vous vraiment effacer vos clés API et token GitHub de ce téléphone ?");
+  if (confirmReset) {
+    localStorage.removeItem("geminiKey");
+    localStorage.removeItem("githubToken");
+    alert("Les clés ont été effacées. La page va se recharger pour vous demander les nouvelles clés.");
+    location.reload();
+  }
 }
 
 let uploadedPhotos = [];
@@ -376,9 +437,12 @@ function removePhoto(i) {
   renderThumbs();
 }
 
-// --- APPEL API GEMINI (TRADUCTION ET TAGS AJOUTÉS AU PROMPT - RÈGLE STRICTE) ---
+// --- APPEL API GEMINI (TRADUCTION ET TAGS AJOUTÉS AU PROMPT - RÈGLE STRICTE DES DESSERTS CORRIGÉE) ---
 async function callGemini(parts, restoInfo) {
-  if (!GEMINI_API_KEY) throw new Error("Clé API manquante. Cliquez sur 'Changer la clé API' en bas de page.");
+  if (!GEMINI_API_KEY) {
+    alert("Oups, la clé Gemini est manquante. Allez dans Paramètres.");
+    throw new Error("Clé API manquante.");
+  }
 
   const systemPrompt = `Tu es un expert en numérisation de menus, traducteur et designer web.
   INSTRUCTIONS:
@@ -482,7 +546,7 @@ async function generateFromURL() {
   }
 }
 
-// --- RENDU HTML DE LA CARTE (AVEC TRADUCTION ET TAGS) ---
+// --- RENDU HTML DE LA CARTE (AVEC TRADUCTION ET TAGS DESSERTS CORRIGÉS) ---
 function renderMenu(data, elapsed) {
   const card = document.getElementById('menu-card');
   
@@ -615,25 +679,28 @@ fileInput.addEventListener('change', e => {
 });
 
 async function deployAndGenerateQR() {
-  const token = document.getElementById('gh-token').value.trim();
-  let repoName = document.getElementById('gh-repo').value.trim();
   const btn = document.getElementById('btn-deploy');
+  let repoName = document.getElementById('gh-repo').value.trim();
 
-  if (!token || !repoName) return showError("Le Token GitHub et le Nom du lien sont obligatoires.");
+  if (!GITHUB_TOKEN || !repoName) {
+    alert("Le Token GitHub est manquant ( Paramètres) ou le nom du lien est vide.");
+    return showError("Token GitHub ou Nom du lien obligatoire.");
+  }
+  
   repoName = repoName.replace(/\s+/g, '-').toLowerCase(); 
   btn.disabled = true;
   btn.textContent = "⚙️ Déploiement en cours...";
   hideError();
 
   try {
-    let res = await fetch('https://api.github.com/user', { headers: { 'Authorization': `token ${token}` } });
-    if (!res.ok) throw new Error("Token GitHub invalide.");
+    let res = await fetch('https://api.github.com/user', { headers: { 'Authorization': `token ${GITHUB_TOKEN}` } });
+    if (!res.ok) throw new Error("Le Token GitHub semble invalide ou expiré.");
     const user = await res.json();
     const username = user.login;
 
     await fetch('https://api.github.com/user/repos', {
       method: 'POST',
-      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+      headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: repoName, auto_init: true })
     });
 
@@ -641,30 +708,30 @@ async function deployAndGenerateQR() {
     content = content.replace(/contenteditable="true"/g, '');
 
     const styles = document.querySelector('style').innerHTML; 
-    const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Menu | ${username}</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/><style>${styles} body { background: #f5f0e8; padding: 15px; } .menu-card { max-width: 800px; margin: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }</style></head><body>${content}</body></html>`;
+    const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Menu | ${username}</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/><style>${styles} body { background: #f5f0e8; padding: 10px; } .menu-card { max-width: 800px; margin: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }</style></head><body>${content}</body></html>`;
     
     const encodedHtml = btoa(unescape(encodeURIComponent(fullHtml)));
     const putUrl = `https://api.github.com/repos/${username}/${repoName}/contents/index.html`;
     let fileSha = null;
-    const getRes = await fetch(putUrl, { headers: { 'Authorization': `token ${token}` } });
+    const getRes = await fetch(putUrl, { headers: { 'Authorization': `token ${GITHUB_TOKEN}` } });
     if (getRes.ok) {
       const fileData = await getRes.json();
       fileSha = fileData.sha;
     }
 
-    const body = { message: "MenuAI Premium Deploy", content: encodedHtml };
+    const body = { message: "MenuAI Pro Deploy (Multilingue & Tags)", content: encodedHtml };
     if (fileSha) body.sha = fileSha;
 
     res = await fetch(putUrl, {
       method: 'PUT',
-      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+      headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
     if (!res.ok) throw new Error("Impossible de créer la page web sur GitHub.");
 
     await fetch(`https://api.github.com/repos/${username}/${repoName}/pages`, {
       method: 'POST',
-      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.switcheroo-preview+json' },
+      headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github.switcheroo-preview+json' },
       body: JSON.stringify({ source: { branch: 'main', path: '/' } })
     });
 
@@ -692,5 +759,16 @@ async function deployAndGenerateQR() {
   }
 }
 </script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('Appli installée en cache !', reg.scope))
+        .catch(err => console.error('Erreur SW:', err));
+    });
+  }
+</script>
+
 </body>
 </html>
