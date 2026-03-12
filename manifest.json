@@ -1,0 +1,16 @@
+{
+  "name": "MenuAI Pro",
+  "short_name": "MenuAI",
+  "description": "Générateur de menus par IA",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F5F0E8",
+  "theme_color": "#1A1410",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3170/3170733.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
