@@ -1,21 +1,31 @@
-const CACHE_NAME = 'menuai-cache-v2';
-const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'menuai-cache-v1';
+const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
-  './app-icon.png',
+  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'
 ];
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
+// Installation du Service Worker et mise en cache
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('Fichiers mis en cache avec succès');
+        return cache.addAll(urlsToCache);
+      })
   );
 });
 
-self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then((response) => response || fetch(e.request))
+// Interception des requêtes pour fonctionner hors-ligne
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        // Retourne la version en cache si elle existe, sinon va chercher sur le net
+        return response || fetch(event.request);
+      })
   );
 });
