@@ -310,7 +310,7 @@
   </div>
 
   <div class="settings-btn">
-    <button onclick="resetAPIKey()">⚙️ Changer la clé API Gemini</button>
+    <button onclick="resetAPIKey()">⚙️ Réinitialiser mes clés (Gemini & GitHub)</button>
   </div>
 </main>
 
@@ -319,20 +319,32 @@
 <script>
 /**
  * CHARGEMENT DES DONNÉES SAUVEGARDÉES (CLÉS API ET GITHUB)
+ * CORRECTION : Demande les DEUX clés au tout premier lancement
  */
 let GEMINI_API_KEY = localStorage.getItem("geminiKey");
+let GITHUB_TOKEN = localStorage.getItem("ghToken");
 
+// 1. Pop-up pour Gemini
 if (!GEMINI_API_KEY || GEMINI_API_KEY === "null") {
-  GEMINI_API_KEY = prompt("🔐 Bienvenue sur MenuAI !\nPour utiliser l'intelligence artificielle, collez votre clé API Gemini ici :");
+  GEMINI_API_KEY = prompt("🔐 Bienvenue sur MenuAI !\nÉtape 1/2 : Collez votre clé API Gemini ici :");
   if (GEMINI_API_KEY && GEMINI_API_KEY.trim() !== "") {
     GEMINI_API_KEY = GEMINI_API_KEY.trim();
     localStorage.setItem("geminiKey", GEMINI_API_KEY);
   } else {
-    alert("⚠️ Vous devez rafraîchir la page et entrer une clé API pour que l'application fonctionne.");
+    alert("⚠️ Clé Gemini manquante. L'IA ne pourra pas fonctionner.");
   }
 }
 
-// Restauration automatique du Token GitHub au chargement
+// 2. Pop-up pour GitHub
+if (!GITHUB_TOKEN || GITHUB_TOKEN === "null") {
+  GITHUB_TOKEN = prompt("🚀 Configuration de la publication !\nÉtape 2/2 : Collez votre Token GitHub (ghp_...) ici :");
+  if (GITHUB_TOKEN && GITHUB_TOKEN.trim() !== "") {
+    GITHUB_TOKEN = GITHUB_TOKEN.trim();
+    localStorage.setItem("ghToken", GITHUB_TOKEN);
+  }
+}
+
+// 3. Pré-remplissage automatique de la case GitHub en bas
 window.addEventListener("DOMContentLoaded", () => {
   const savedGhToken = localStorage.getItem("ghToken");
   if(savedGhToken) {
@@ -340,9 +352,11 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// 4. Fonction de réinitialisation complète
 function resetAPIKey() {
   localStorage.removeItem("geminiKey");
-  alert("La clé a été effacée. La page va se recharger.");
+  localStorage.removeItem("ghToken");
+  alert("Vos clés Gemini et GitHub ont bien été effacées de ce téléphone.\nLa page va se recharger pour vous les redemander.");
   location.reload();
 }
 
@@ -395,7 +409,7 @@ function removePhoto(i) {
 }
 
 async function callGemini(parts, restoInfo) {
-  if (!GEMINI_API_KEY) throw new Error("Clé API manquante.");
+  if (!GEMINI_API_KEY) throw new Error("Clé API manquante. Veuillez utiliser le bouton de réinitialisation en bas.");
 
   const systemPrompt = `Tu es un expert en numérisation de menus, traducteur et designer web.
   INSTRUCTIONS:
@@ -559,7 +573,7 @@ async function deployAndGenerateQR() {
   
   if (!token || !repoName) return showError("Le Token GitHub et le Nom du lien sont obligatoires.");
   
-  // SAUVEGARDE AUTOMATIQUE DU TOKEN GITHUB
+  // SAUVEGARDE DE SÉCURITÉ EN CAS DE MODIFICATION DANS LA CASE
   localStorage.setItem("ghToken", token);
   
   repoName = repoName.replace(/\s+/g, '-').toLowerCase(); 
