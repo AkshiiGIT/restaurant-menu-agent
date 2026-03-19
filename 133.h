@@ -79,10 +79,9 @@
     /* --- GESTION TRADUCTION & TAGS --- */
     .lang-switch-ui { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem; }
     .lang-switch-ui button { padding: 6px 12px; font-family: 'DM Mono', monospace; font-size: 0.7rem; cursor: pointer; border: 1px solid var(--gold-light); background: transparent; border-radius: 2px; transition: 0.2s; }
-    .lang-en { display: none; pointer-events: none; }
-    .lang-fr { display: block; }
-    .show-en .lang-fr { display: none !important; pointer-events: none !important; }
-    .show-en .lang-en { display: block !important; pointer-events: auto !important; }
+    .lang-en { display: none; }
+    .show-en .lang-fr { display: none; }
+    .show-en .lang-en { display: block; }
     .show-fr-btn { background: var(--gold-light) !important; color: var(--ink); }
     .show-en .show-fr-btn { background: transparent !important; }
     .show-en .show-en-btn { background: var(--gold-light) !important; color: var(--ink); }
@@ -390,22 +389,6 @@ function resetConfiguration() {
 let uploadedPhotos = [];
 let currentStep = -1;
 
-// ✅ CORRECTIF BUG LANGUE : active contenteditable uniquement sur la langue visible
-function switchLang(showEn) {
-  const card = document.getElementById('menu-card');
-  if (showEn) {
-    card.classList.add('show-en');
-  } else {
-    card.classList.remove('show-en');
-  }
-  card.querySelectorAll('.lang-fr[contenteditable]').forEach(el => {
-    el.contentEditable = showEn ? 'false' : 'true';
-  });
-  card.querySelectorAll('.lang-en[contenteditable]').forEach(el => {
-    el.contentEditable = showEn ? 'true' : 'false';
-  });
-}
-
 function switchTab(tab) {
   document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (tab === 'photo' && i === 0) || (tab === 'qr' && i === 1)));
   document.getElementById('tab-photo').classList.toggle('active', tab === 'photo');
@@ -583,8 +566,8 @@ function renderMenu(data, elapsed) {
 
   card.innerHTML = `
     <div class="lang-switch-ui">
-      <button class="show-fr-btn" onclick="switchLang(false)">🇫🇷 FR</button>
-      <button class="show-en-btn" onclick="switchLang(true)">🇬🇧 EN</button>
+      <button class="show-fr-btn" onclick="document.getElementById('menu-card').classList.remove('show-en');">🇫🇷 FR</button>
+      <button class="show-en-btn" onclick="document.getElementById('menu-card').classList.add('show-en');">🇬🇧 EN</button>
     </div>
     
     <div class="menu-header">
@@ -619,8 +602,7 @@ function renderMenu(data, elapsed) {
   `;
   
   document.getElementById('theme-select').value = 'theme-custom';
-  changeTheme();
-  switchLang(false);
+  changeTheme(); 
   document.getElementById('output-panel').style.display = 'block';
   document.getElementById('timer-display').innerHTML = `<div class="timer-badge">Généré en ${elapsed}s (Traduction & Nettoyage inclus)</div>`;
   window.scrollTo({top: document.getElementById('output-panel').offsetTop - 20, behavior: 'smooth'});
