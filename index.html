@@ -79,10 +79,9 @@
     /* --- GESTION TRADUCTION & TAGS --- */
     .lang-switch-ui { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem; }
     .lang-switch-ui button { padding: 6px 12px; font-family: 'DM Mono', monospace; font-size: 0.7rem; cursor: pointer; border: 1px solid var(--gold-light); background: transparent; border-radius: 2px; transition: 0.2s; }
-    .lang-en { display: none; pointer-events: none; }
-    .lang-fr { display: block; }
-    .show-en .lang-fr { display: none !important; pointer-events: none !important; }
-    .show-en .lang-en { display: block !important; pointer-events: auto !important; }
+    .lang-en { display: none; }
+    .show-en .lang-fr { display: none; }
+    .show-en .lang-en { display: block; }
     .show-fr-btn { background: var(--gold-light) !important; color: var(--ink); }
     .show-en .show-fr-btn { background: transparent !important; }
     .show-en .show-en-btn { background: var(--gold-light) !important; color: var(--ink); }
@@ -390,22 +389,6 @@ function resetConfiguration() {
 let uploadedPhotos = [];
 let currentStep = -1;
 
-// ✅ CORRECTIF BUG LANGUE : active contenteditable uniquement sur la langue visible
-function switchLang(showEn) {
-  const card = document.getElementById('menu-card');
-  if (showEn) {
-    card.classList.add('show-en');
-  } else {
-    card.classList.remove('show-en');
-  }
-  card.querySelectorAll('.lang-fr[contenteditable]').forEach(el => {
-    el.contentEditable = showEn ? 'false' : 'true';
-  });
-  card.querySelectorAll('.lang-en[contenteditable]').forEach(el => {
-    el.contentEditable = showEn ? 'true' : 'false';
-  });
-}
-
 function switchTab(tab) {
   document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (tab === 'photo' && i === 0) || (tab === 'qr' && i === 1)));
   document.getElementById('tab-photo').classList.toggle('active', tab === 'photo');
@@ -462,12 +445,26 @@ async function callGemini(parts, restoInfo) {
   }
 
   const systemPrompt = `Tu es un expert en numérisation de menus, traducteur et designer web.
+
+  ══════════════════════════════════════════
+  RÈGLE ABSOLUE N°1 — SÉPARATION FR / EN
+  ══════════════════════════════════════════
+  Le menu peut être BILINGUE sur la photo, avec le français et l'anglais collés sans espace ni séparateur.
+  Exemples de textes collés à séparer OBLIGATOIREMENT :
+    - "Ricard 2clRicard 2cl"            → FR: "Ricard 2cl"           EN: "Ricard 2cl"
+    - "Menu Tout ComprisAll-Inclusive Menu" → FR: "Menu Tout Compris"  EN: "All-Inclusive Menu"
+    - "Kir Cassis 12 clKir Blackcurrant 12cl" → FR: "Kir Cassis 12cl"  EN: "Kir Blackcurrant 12cl"
+    - "Poulet TikkaChicken Tikka"        → FR: "Poulet Tikka"         EN: "Chicken Tikka"
+  MÉTHODE : Repère le point de jonction entre la fin du texte français et le début du texte anglais.
+  Ne laisse JAMAIS les deux langues collées dans le même champ JSON.
+  ══════════════════════════════════════════
+
   INSTRUCTIONS:
   1. Extrais TOUS les plats et prix de l'image.
-     ⚠️ ATTENTION : Si le menu sur la photo est DÉJÀ bilingue et que les mots sont collés (ex: "Poulet TikkaChicken Tikka" ou "Naan Nature ou Cheese Plain or Cheese Naan"), tu DOIS absolument séparer le français de l'anglais ! Ne les laisse pas collés.
   2. TRADUCTION & NETTOYAGE : 
-     - Mets UNIQUEMENT le texte en Français (nettoyé) dans les clés "title", "name", et "desc".
-     - Mets UNIQUEMENT le texte en Anglais (soit traduit, soit extrait proprement) dans les clés "title_en", "name_en", et "desc_en".
+     - Mets UNIQUEMENT le texte en Français (nettoyé, sans aucun mot anglais) dans les clés "title", "name", et "desc".
+     - Mets UNIQUEMENT le texte en Anglais (nettoyé, sans aucun mot français) dans les clés "title_en", "name_en", et "desc_en".
+     - Si un mot est identique dans les deux langues (ex: "Ricard"), il est quand même séparé dans les deux champs.
   3. TAGS : 
      - Ajoute "🌱" UNIQUEMENT pour les Entrées et Plats principaux qui ne contiennent ni viande ni poisson. 
      - ⚠️ RÈGLE STRICTE : Ne mets JAMAIS le tag "🌱" sur les Desserts ni sur les Boissons.
@@ -583,8 +580,8 @@ function renderMenu(data, elapsed) {
 
   card.innerHTML = `
     <div class="lang-switch-ui">
-      <button class="show-fr-btn" onclick="switchLang(false)">🇫🇷 FR</button>
-      <button class="show-en-btn" onclick="switchLang(true)">🇬🇧 EN</button>
+      <button class="show-fr-btn" onclick="document.getElementById('menu-card').classList.remove('show-en');">🇫🇷 FR</button>
+      <button class="show-en-btn" onclick="document.getElementById('menu-card').classList.add('show-en');">🇬🇧 EN</button>
     </div>
     
     <div class="menu-header">
@@ -619,8 +616,7 @@ function renderMenu(data, elapsed) {
   `;
   
   document.getElementById('theme-select').value = 'theme-custom';
-  changeTheme();
-  switchLang(false);
+  changeTheme(); 
   document.getElementById('output-panel').style.display = 'block';
   document.getElementById('timer-display').innerHTML = `<div class="timer-badge">Généré en ${elapsed}s (Traduction & Nettoyage inclus)</div>`;
   window.scrollTo({top: document.getElementById('output-panel').offsetTop - 20, behavior: 'smooth'});
